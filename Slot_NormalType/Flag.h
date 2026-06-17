@@ -3,11 +3,9 @@
 //小役の種類
 enum MinorPrize
 {
-	bell_1,			//ベル１
-	bell_2,			//ベル２
-	navigated_bell,	//押し順ベル
-	replay_1,		//リプレイ１
-	replay_2,		//リプレイ２
+	bell,			//ベル
+	replay,			//リプレイ
+	chance,			//チャンス目
 	melon_weakness,	//弱スイカ
 	melon_strength,	//強スイカ
 	cherry_weakness,//弱チェリー
