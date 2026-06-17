@@ -1,4 +1,5 @@
 #pragma once
+#include "Random.h"
 
 //小役の種類
 enum MinorPrize
@@ -28,7 +29,7 @@ public:
 	MinorPrize GetCurrentMP()const { return currentMP; }	
 
 private:
-	MinorPrize currentMP;	//現在の小役
+	Xoroshiro128PP rng;		//乱数生成のインスタンス
 
-	
+	MinorPrize currentMP;	//現在の小役
 };
