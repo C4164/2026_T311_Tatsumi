@@ -9,7 +9,8 @@ void Flag::Init()
 
 MinorPrize Flag::FlagUp()
 {
-	MinorPrize mp = bell_1;
+
+	MinorPrize mp = Const::bell;
 
 	uint16_t t = rng.GetRandom16();
 
