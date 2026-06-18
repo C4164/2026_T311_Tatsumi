@@ -16,6 +16,9 @@
     <Filter Include="10_Core\Math">
       <UniqueIdentifier>{61dea1de-fbd2-445a-b60b-0f1e96deedc2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="10_Core\DirextX12">
+      <UniqueIdentifier>{0507b2f9-e35d-4a79-a16f-b3ee444318c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -32,6 +35,9 @@
     </ClCompile>
     <ClCompile Include="GameContext.cpp">
       <Filter>10_Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RootSignature.cpp">
+      <Filter>10_Core\DirextX12</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +61,9 @@
     </ClInclude>
     <ClInclude Include="Consts.h">
       <Filter>10_Core</Filter>
+    </ClInclude>
+    <ClInclude Include="RootSignature.h">
+      <Filter>10_Core\DirextX12</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
