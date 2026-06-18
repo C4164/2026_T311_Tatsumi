@@ -126,6 +126,7 @@
     <ClCompile Include="Flag.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Reel.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="GameContext.cpp" />
   </ItemGroup>
@@ -134,6 +135,7 @@
     <ClInclude Include="Flag.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Random.h" />
+    <ClInclude Include="Reel.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="GameContext.h" />
     <ClInclude Include="WindowManager.h" />
