@@ -34,7 +34,13 @@ namespace Const
 	//図柄の種類
 	constexpr enum Symbols 
 	{
-		blank,
+		blankSymbol,
+		bellSymbol,
+		replaySymbol,
+		melonSymbol,
+		cherrySymbol,
+		sevenSymbol,
+		barSymbol
 	};
 
 	//リール配列
@@ -42,18 +48,75 @@ namespace Const
 	constexpr int REELSYMBOL_NUM = 20;
 
 	//左リール
-	constexpr std::array<MinorPrize, REELSYMBOL_NUM> REELTABLE_LEFT
+	constexpr std::array<Symbols, REELSYMBOL_NUM> REELTABLE_LEFT
 	{
-
+		melonSymbol,
+		barSymbol,
+		blankSymbol,
+		sevenSymbol,
+		bellSymbol,
+		melonSymbol,
+		blankSymbol,
+		cherrySymbol,
+		replaySymbol,
+		bellSymbol,
+		melonSymbol,
+		barSymbol,
+		cherrySymbol,
+		replaySymbol,
+		bellSymbol,
+		melonSymbol,
+		blankSymbol,
+		blankSymbol,
+		replaySymbol,
+		bellSymbol
 	};
 	//中リール
-	constexpr std::array<MinorPrize, REELSYMBOL_NUM> REELTABLE_CENTER
+	constexpr std::array<Symbols, REELSYMBOL_NUM> REELTABLE_CENTER
 	{
-
+		bellSymbol,
+		replaySymbol,
+		barSymbol,
+		bellSymbol,
+		cherrySymbol,
+		bellSymbol,
+		replaySymbol,
+		blankSymbol,
+		bellSymbol,
+		cherrySymbol,
+		bellSymbol,
+		replaySymbol,
+		barSymbol,
+		bellSymbol,
+		melonSymbol,
+		bellSymbol,
+		replaySymbol,
+		sevenSymbol,
+		bellSymbol,
+		melonSymbol
 	};
 	//右リール
-	constexpr std::array<MinorPrize, REELSYMBOL_NUM> REELTABLE_RIGHT
+	constexpr std::array<Symbols, REELSYMBOL_NUM> REELTABLE_RIGHT
 	{
-
+		replaySymbol,
+		blankSymbol,
+		bellSymbol,
+		barSymbol,
+		cherrySymbol,
+		replaySymbol,
+		melonSymbol,
+		bellSymbol,
+		sevenSymbol,
+		cherrySymbol,
+		replaySymbol,
+		melonSymbol,
+		bellSymbol,
+		blankSymbol,
+		cherrySymbol,
+		replaySymbol,
+		blankSymbol,
+		bellSymbol,
+		barSymbol,
+		cherrySymbol
 	};
 }
