@@ -1,18 +1,23 @@
 #include "Flag.h"
+#include "Random.h"
+#include <intrin.h>
 
 void Flag::Init()
 {
-	uint64_t r1 = GetHardwareRandom64();
-	uint64_t r2 = GetHardwareRandom64();
-	rng.seed(r1, r2);
+	Xoroshiro128PP rng;
+
+	//64bitの値を返すクロックカウンタを取得
+	uint64_t t = __rdtsc();
+
+	//0x9E3779B97F4A7C15ULLはビット拡散用の定数
+	//この値とXORすることでビットパターンの偏りが少なくなる
+	rng.seed(t, t ^ 0x9E3779B97F4A7C15ULL);
 }
 
-MinorPrize Flag::FlagUp()
+MinorPrize Flag::FlagUp(const int setting)
 {
-
-	MinorPrize mp = Const::bell;
-
 	uint16_t t = rng.GetRandom16();
 
-	return mp;
+
+	return Const::nothing;
 }

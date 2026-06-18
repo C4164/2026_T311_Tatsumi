@@ -6,6 +6,7 @@ namespace Const
 	//小役の種類
 	constexpr enum MinorPrize
 	{
+		nothing,			//はずれ
 		bell,				//ベル
 		replay,				//リプレイ
 		chance,				//チャンス目
