@@ -30,4 +30,30 @@ namespace Const
 	constexpr std::array<int, SETTING> CHERRY_WEAKNESS{ 600 };					//弱チェリー
 	constexpr std::array<int, SETTING> CHERRY_STRENGTH_1{ 252,260,268,276,284 };//強チェリー1
 	constexpr std::array<int, SETTING> CHERRY_STRENGTH_2{ 60 };					//強チェリー2
+
+	//図柄の種類
+	constexpr enum Symbols 
+	{
+		blank,
+	};
+
+	//リール配列
+	//1リールの小役数
+	constexpr int REELSYMBOL_NUM = 20;
+
+	//左リール
+	constexpr std::array<MinorPrize, REELSYMBOL_NUM> REELTABLE_LEFT
+	{
+
+	};
+	//中リール
+	constexpr std::array<MinorPrize, REELSYMBOL_NUM> REELTABLE_CENTER
+	{
+
+	};
+	//右リール
+	constexpr std::array<MinorPrize, REELSYMBOL_NUM> REELTABLE_RIGHT
+	{
+
+	};
 }
