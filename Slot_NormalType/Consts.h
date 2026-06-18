@@ -31,15 +31,6 @@ namespace Const
 	constexpr std::array<uint16_t, SETTING> CHERRY_WEAKNESS{ 600 };						//弱チェリー
 	constexpr std::array<uint16_t, SETTING> CHERRY_STRENGTH_1{ 252,260,268,276,284 };	//強チェリー1
 	constexpr std::array<uint16_t, SETTING> CHERRY_STRENGTH_2{ 60 };					//強チェリー2
-	constexpr std::array<int, SETTING> BELL{ 5372 };							//ベル
-	constexpr std::array<int, SETTING> REPLAY{ 8978 };							//リプレイ
-	constexpr std::array<int, SETTING> CHANCE{ 365 };							//チャンス目
-	constexpr std::array<int, SETTING> MELON_WEAKNESS{ 601,603,619,651,667 };	//弱スイカ
-	constexpr std::array<int, SETTING> MELON_STRENGTH_1{ 120,122,134,146,154 };	//強スイカ1
-	constexpr std::array<int, SETTING> MELON_STRENGTH_2{ 40 };					//強スイカ2
-	constexpr std::array<int, SETTING> CHERRY_WEAKNESS{ 600 };					//弱チェリー
-	constexpr std::array<int, SETTING> CHERRY_STRENGTH_1{ 252,260,268,276,284 };//強チェリー1
-	constexpr std::array<int, SETTING> CHERRY_STRENGTH_2{ 60 };					//強チェリー2
 
 	//図柄の種類
 	constexpr enum Symbols 
