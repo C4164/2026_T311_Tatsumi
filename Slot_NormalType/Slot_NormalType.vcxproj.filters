@@ -69,6 +69,9 @@
     <ClCompile Include="PipelineState.cpp">
       <Filter>10_Core\MyEngine</Filter>
     </ClCompile>
+    <ClCompile Include="ConstantBuffer.cpp">
+      <Filter>10_Core\MyEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -126,6 +129,9 @@
       <Filter>DirectX12</Filter>
     </ClInclude>
     <ClInclude Include="PipelineState.h">
+      <Filter>10_Core\MyEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
       <Filter>10_Core\MyEngine</Filter>
     </ClInclude>
   </ItemGroup>

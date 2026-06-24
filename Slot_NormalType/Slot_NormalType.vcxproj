@@ -146,6 +146,7 @@ d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     <ClCompile Include="CommandAllocator.cpp" />
     <ClCompile Include="CommandList.cpp" />
     <ClCompile Include="CommandQueue.cpp" />
+    <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="DeviceManager.cpp" />
     <ClCompile Include="Fence.cpp" />
     <ClCompile Include="Flag.cpp" />
@@ -164,6 +165,7 @@ d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     <ClInclude Include="CommandList.h" />
     <ClInclude Include="CommandQueue.h" />
     <ClInclude Include="ComPtr.h" />
+    <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Consts.h" />
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="DeviceManager.h" />
