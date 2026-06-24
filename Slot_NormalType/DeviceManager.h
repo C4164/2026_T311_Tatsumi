@@ -7,10 +7,11 @@
 class DeviceManager
 {
 public:
+	//コンストラクタとデストラクタ
 	DeviceManager() = default;
 	~DeviceManager() = default;
 
-
+	//初期化関数
 	bool Init();
 
 	//ゲッター

@@ -44,7 +44,7 @@ bool DeviceManager::CreateDevice()
 	//アダプターの数ループ
 	for (UINT i = 0; factory->EnumAdapters1(i, adapter.GetAddressOf()) != DXGI_ERROR_NOT_FOUND; i++)
 	{
-		//アダプターの情報構造体
+		//アダプターの情報構造体(ディスクリプタ)
 		DXGI_ADAPTER_DESC1 desc;
 		//情報を書き込む
 		adapter->GetDesc1(&desc);
