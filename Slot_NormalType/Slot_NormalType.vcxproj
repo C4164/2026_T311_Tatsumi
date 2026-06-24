@@ -161,6 +161,7 @@ d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies
     <ClCompile Include="RootSignature.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="TextureSRV.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandAllocator.h" />
@@ -183,6 +184,7 @@ d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies
     <ClInclude Include="RootSignature.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="TextureSRV.h" />
+    <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
