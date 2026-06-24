@@ -147,6 +147,7 @@ d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies
     <ClCompile Include="CommandList.cpp" />
     <ClCompile Include="CommandQueue.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
+    <ClCompile Include="DescriptorHeap_CBV_SRV.cpp" />
     <ClCompile Include="DeviceManager.cpp" />
     <ClCompile Include="Fence.cpp" />
     <ClCompile Include="Flag.cpp" />
@@ -168,6 +169,7 @@ d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies
     <ClInclude Include="ComPtr.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Consts.h" />
+    <ClInclude Include="DescriptorHeap_CBV_SRV.h" />
     <ClInclude Include="DeviceManager.h" />
     <ClInclude Include="Fence.h" />
     <ClInclude Include="Flag.h" />

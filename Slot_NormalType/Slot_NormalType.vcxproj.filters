@@ -72,6 +72,9 @@
     <ClCompile Include="TextureSRV.cpp">
       <Filter>MyEngine</Filter>
     </ClCompile>
+    <ClCompile Include="DescriptorHeap_CBV_SRV.cpp">
+      <Filter>MyEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -132,6 +135,9 @@
       <Filter>MyEngine</Filter>
     </ClInclude>
     <ClInclude Include="TextureSRV.h">
+      <Filter>MyEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="DescriptorHeap_CBV_SRV.h">
       <Filter>MyEngine</Filter>
     </ClInclude>
   </ItemGroup>
