@@ -76,15 +76,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)External/DirectXTex/Include;$(ProjectDir)External/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(CoreLibraryDependencies);dxgi.lib;
 d3d12.lib;
-d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)External/DirectXTex/Lib/$(Configuration)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -95,15 +95,15 @@ d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)External/DirectXTex/Include;$(ProjectDir)External/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(CoreLibraryDependencies);dxgi.lib;
 d3d12.lib;
-d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)External/DirectXTex/Lib/$(Configuration)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -112,15 +112,15 @@ d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)External/DirectXTex/Include;$(ProjectDir)External/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(CoreLibraryDependencies);dxgi.lib;
 d3d12.lib;
-d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)External/DirectXTex/Lib/$(Configuration)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -131,15 +131,15 @@ d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)External/DirectXTex/Include;$(ProjectDir)External/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(CoreLibraryDependencies);dxgi.lib;
 d3d12.lib;
-d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)External/DirectXTex/Lib/$(Configuration)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -159,6 +159,7 @@ d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     <ClCompile Include="RenderTargetView.cpp" />
     <ClCompile Include="RootSignature.cpp" />
     <ClCompile Include="SwapChain.cpp" />
+    <ClCompile Include="TextureSRV.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandAllocator.h" />
@@ -167,7 +168,6 @@ d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     <ClInclude Include="ComPtr.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Consts.h" />
-    <ClInclude Include="d3dx12.h" />
     <ClInclude Include="DeviceManager.h" />
     <ClInclude Include="Fence.h" />
     <ClInclude Include="Flag.h" />
@@ -180,6 +180,7 @@ d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     <ClInclude Include="RenderTargetView.h" />
     <ClInclude Include="RootSignature.h" />
     <ClInclude Include="SwapChain.h" />
+    <ClInclude Include="TextureSRV.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
