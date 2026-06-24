@@ -151,6 +151,7 @@ d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies
     <ClCompile Include="DeviceManager.cpp" />
     <ClCompile Include="Fence.cpp" />
     <ClCompile Include="Flag.cpp" />
+    <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PipelineState.cpp" />
@@ -174,6 +175,7 @@ d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies
     <ClInclude Include="DeviceManager.h" />
     <ClInclude Include="Fence.h" />
     <ClInclude Include="Flag.h" />
+    <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="PipelineState.h" />
     <ClInclude Include="Random.h" />
