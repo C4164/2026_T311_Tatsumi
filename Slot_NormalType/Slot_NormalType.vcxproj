@@ -151,6 +151,7 @@ d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies
     <ClCompile Include="DeviceManager.cpp" />
     <ClCompile Include="Fence.cpp" />
     <ClCompile Include="Flag.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
@@ -177,6 +178,7 @@ d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies
     <ClInclude Include="DeviceManager.h" />
     <ClInclude Include="Fence.h" />
     <ClInclude Include="Flag.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Material.h" />
@@ -190,6 +192,7 @@ d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies
     <ClInclude Include="RootSignature.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="TextureSRV.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>

@@ -87,6 +87,9 @@
     <ClCompile Include="Material.cpp">
       <Filter>MyEngine</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>MyEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -162,6 +165,12 @@
       <Filter>MyEngine</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
+      <Filter>MyEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>MyEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
       <Filter>MyEngine</Filter>
     </ClInclude>
   </ItemGroup>

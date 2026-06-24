@@ -20,6 +20,11 @@ public:
     //XVŠÖ”
     void Update(const void* data, UINT size);
 
+    D3D12_GPU_VIRTUAL_ADDRESS GetGPUAddress() const
+    {
+        return buffer->GetGPUVirtualAddress();
+    }
+
 private:
     ComPtr<ID3D12Resource> buffer;  //
     UINT alignedSize = 0;           //
