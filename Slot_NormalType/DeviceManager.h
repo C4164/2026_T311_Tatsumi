@@ -15,8 +15,8 @@ public:
 	bool Init();
 
 	//ゲッター
-	ID3D12Device6* GetDevice()const { return device.Get(); }
-	IDXGIFactory6* GetFactory()const { return factory.Get(); }
+	ID3D12Device7* GetDevice()const { return device.Get(); }
+	IDXGIFactory7* GetFactory()const { return factory.Get(); }
 
 private:
 	//生成関数
@@ -24,7 +24,7 @@ private:
 	bool CreateDevice();
 
 	//ファクトリー
-	ComPtr<IDXGIFactory6>factory = nullptr;
+	ComPtr<IDXGIFactory7>factory = nullptr;
 	//デバイス
-	ComPtr<ID3D12Device6> device = nullptr;
+	ComPtr<ID3D12Device7> device = nullptr;
 };

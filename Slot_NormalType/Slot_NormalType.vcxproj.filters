@@ -19,6 +19,9 @@
     <Filter Include="10_Core\MyEngine">
       <UniqueIdentifier>{0507b2f9-e35d-4a79-a16f-b3ee444318c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DirectX12">
+      <UniqueIdentifier>{b4e19ddf-1e9e-46c6-9c6f-984e6beea6bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -115,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="RenderTargetView.h">
       <Filter>10_Core\MyEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="d3dx12.h">
+      <Filter>DirectX12</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

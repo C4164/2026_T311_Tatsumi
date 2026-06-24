@@ -40,7 +40,7 @@ void GameThread()
 		while (accumulator >= deltaTime)
 		{
 			Input::Reset();									//キーの状態をリセット
-			GameContext::GetInstance().Update(deltaTime);	//ゲームの状態更新
+			GameContext::Instance().Update(deltaTime);	//ゲームの状態更新
 			accumulator -= deltaTime;						//蓄積時間を減少
 		}
 	}
@@ -53,7 +53,7 @@ void RenderThread()
 {
 	while (running)
 	{
-		Render::GetInstance().Draw(); //描画処理
+		Render::Instance().Draw(); //描画処理
 	}
 }
 
@@ -138,6 +138,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 
 	WindowManager::Instance().SetHWND(hwnd);
 	WindowManager::Instance().UpdateSize();
+
+	if (!Render::Instance().Init(hwnd, WindowManager::Instance().Width(), WindowManager::Instance().Height()))
+	{
+		MessageBoxA(nullptr, "Render Init Failed", "Error", MB_OK);
+		return -1;
+	}
 
 	//スレッドを起動
 	std::thread game(GameThread);

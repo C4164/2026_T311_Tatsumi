@@ -164,6 +164,7 @@ d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     <ClInclude Include="CommandQueue.h" />
     <ClInclude Include="ComPtr.h" />
     <ClInclude Include="Consts.h" />
+    <ClInclude Include="d3dx12.h" />
     <ClInclude Include="DeviceManager.h" />
     <ClInclude Include="Fence.h" />
     <ClInclude Include="Flag.h" />
