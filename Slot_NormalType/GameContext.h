@@ -3,7 +3,7 @@
 class GameContext
 {
 public:
-	static GameContext& GetInstance()
+	static GameContext& Instance()
 	{
 		static GameContext instance;
 		return instance;

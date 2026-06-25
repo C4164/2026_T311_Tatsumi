@@ -6,6 +6,14 @@
 #include "WindowManager.h"
 #include "Render.h"
 #include "GameContext.h"
+#include "DeviceManager.h"
+#include "RootSignature.h"
+#include "PipelineState.h"
+#include "DescriptorHeap_CBV_SRV.h"
+#include "GameObject.h"
+#include "Camera.h"
+#include "EngineDefs.h"
+#include "GameScene.h"
 
 //ゲームが実行中かどうかを示すフラグ
 //複数のスレッドからアクセスされるため、atomicを使用
@@ -40,7 +48,7 @@ void GameThread()
 		while (accumulator >= deltaTime)
 		{
 			Input::Reset();									//キーの状態をリセット
-			GameContext::GetInstance().Update(deltaTime);	//ゲームの状態更新
+			GameContext::Instance().Update(deltaTime);	//ゲームの状態更新
 			accumulator -= deltaTime;						//蓄積時間を減少
 		}
 	}
@@ -53,7 +61,7 @@ void RenderThread()
 {
 	while (running)
 	{
-		Render::GetInstance().Draw(); //描画処理
+		Render::Instance().Draw(); //描画処理
 	}
 }
 
@@ -139,9 +147,29 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 	WindowManager::Instance().SetHWND(hwnd);
 	WindowManager::Instance().UpdateSize();
 
+	Render& render = Render::Instance();
+
+	//Renderを初期化
+	render.Init(hwnd, WindowManager::Instance().Width(), WindowManager::Instance().Height());
+
+	auto device = DeviceManager::Instance().GetDevice();
+
+	//DescriptorHeapを初期化
+	DescriptorHeap_CBV_SRV::Instance().Init(device, Defs::DESCRIPTOR_COUNT);
+
+	//RootSignatureを初期化
+	RootSignature::Instance().Init(device);
+
+	//GameSceneを初期化
+	GameScene* gameScene = new GameScene();
+	gameScene->Init();
+
+	//Cameraを初期化
+	render.InitCameraCB(device);
+
 	//スレッドを起動
-	std::thread game(GameThread);
-	std::thread render(RenderThread);
+	std::thread gameThread(GameThread);
+	std::thread renderThread(RenderThread);
 
 	//MSGはメッセージを格納するための構造体
 	//そのインスタンスを作成し、０で初期化
@@ -170,9 +198,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 		Sleep(1);
 	}
 	//ゲームスレッドが処理を完了させるまで待機させる
-	game.join();
+	gameThread.join();
 	//描画スレッドが処理を完了させるまで待機させる
-	render.join();
+	renderThread.join();
+
 	//アプリケーションを正常に終了させる
 	return 0;
 }

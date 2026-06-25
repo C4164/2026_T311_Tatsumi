@@ -76,11 +76,21 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)External/DirectXTex/Include;$(ProjectDir)External/;$(ProjectDir)External/DirectXTK12/Inc/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(CoreLibraryDependencies);dxgi.lib;
+d3d12.lib;
+d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)External/DirectXTex/Lib/$(Configuration)</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -T vs_6_0 -E main -Fo "$(ProjectDir)Shaders\VS.cso" "$(ProjectDir)Shaders\VS.fx"
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -T ps_6_0 -E main -Fo "$(ProjectDir)Shaders\PS.cso" "$(ProjectDir)Shaders\PS.fx"
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -90,11 +100,21 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)External/DirectXTex/Include;$(ProjectDir)External/;$(ProjectDir)External/DirectXTK12/Inc/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(CoreLibraryDependencies);dxgi.lib;
+d3d12.lib;
+d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)External/DirectXTex/Lib/$(Configuration)</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -T vs_6_0 -E main -Fo "$(ProjectDir)Shaders\VS.cso" "$(ProjectDir)Shaders\VS.fx"
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -T ps_6_0 -E main -Fo "$(ProjectDir)Shaders\PS.cso" "$(ProjectDir)Shaders\PS.fx"
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -102,11 +122,21 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)External/DirectXTex/Include;$(ProjectDir)External/;$(ProjectDir)External/DirectXTK12/Inc/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(CoreLibraryDependencies);dxgi.lib;
+d3d12.lib;
+d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)External/DirectXTex/Lib/$(Configuration)</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -T vs_6_0 -E main -Fo "$(ProjectDir)Shaders\VS.cso" "$(ProjectDir)Shaders\VS.fx"
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -T ps_6_0 -E main -Fo "$(ProjectDir)Shaders\PS.cso" "$(ProjectDir)Shaders\PS.fx"
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -116,28 +146,81 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)External/DirectXTex/Include;$(ProjectDir)External/;$(ProjectDir)External/DirectXTK12/Inc/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(CoreLibraryDependencies);dxgi.lib;
+d3d12.lib;
+d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)External/DirectXTex/Lib/$(Configuration)</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -T vs_6_0 -E main -Fo "$(ProjectDir)Shaders\VS.cso" "$(ProjectDir)Shaders\VS.fx"
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -T ps_6_0 -E main -Fo "$(ProjectDir)Shaders\PS.cso" "$(ProjectDir)Shaders\PS.fx"
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CommandAllocator.cpp" />
+    <ClCompile Include="CommandList.cpp" />
+    <ClCompile Include="CommandQueue.cpp" />
+    <ClCompile Include="ConstantBuffer.cpp" />
+    <ClCompile Include="DescriptorHeap_CBV_SRV.cpp" />
+    <ClCompile Include="DeviceManager.cpp" />
+    <ClCompile Include="Fence.cpp" />
     <ClCompile Include="Flag.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="PipelineState.cpp" />
     <ClCompile Include="Reel.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="GameContext.cpp" />
+    <ClCompile Include="RenderTargetView.cpp" />
+    <ClCompile Include="RootSignature.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="SwapChain.cpp" />
+    <ClCompile Include="TextureSRV.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CommandAllocator.h" />
+    <ClInclude Include="CommandList.h" />
+    <ClInclude Include="CommandQueue.h" />
+    <ClInclude Include="ComPtr.h" />
+    <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Consts.h" />
+    <ClInclude Include="DescriptorHeap_CBV_SRV.h" />
+    <ClInclude Include="DeviceManager.h" />
+    <ClInclude Include="EngineDefs.h" />
+    <ClInclude Include="Fence.h" />
     <ClInclude Include="Flag.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameScene.h" />
+    <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="PipelineState.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Reel.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="GameContext.h" />
+    <ClInclude Include="RenderTargetView.h" />
+    <ClInclude Include="RootSignature.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="SwapChain.h" />
+    <ClInclude Include="TextureSRV.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
