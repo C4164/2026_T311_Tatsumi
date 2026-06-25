@@ -14,11 +14,10 @@ public:
     //èâä˙âªä÷êî
     bool Init(
         ID3D12Device* device,
-        ID3D12GraphicsCommandList* commandList,
-        const std::wstring& filePath,
-        D3D12_CPU_DESCRIPTOR_HANDLE _cpuHandle,
-        D3D12_GPU_DESCRIPTOR_HANDLE _gpuHandle
+        ID3D12GraphicsCommandList* commandList
     );
+
+    void SetPath(std::wstring _filePath) { filePath = _filePath; }
 
     //ÉQÉbÉ^Å[
     D3D12_GPU_DESCRIPTOR_HANDLE GetGPUHandle() const { return gpuHandle; }
@@ -28,5 +27,7 @@ private:
     ComPtr<ID3D12Resource> uploadBuffer;
 
     D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = {};
+
+    std::wstring filePath;
 };
 

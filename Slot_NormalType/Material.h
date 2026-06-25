@@ -2,18 +2,20 @@
 #include <d3d12.h>
 #include <wrl.h>
 #include <string>
-#include "ComPtr.h"
 #include "TextureSRV.h"
 #include "PipelineState.h"
 
 class Material
 {
 public:
-    //コンストラクタとデストラクタ
     Material() = default;
     ~Material() = default;
 
-    void Bind(ID3D12GraphicsCommandList* commandList);
+    //GPU初期化
+    bool Init(ID3D12Device* device);
+
+    //描画時に呼ぶ
+    void Bind(ID3D12GraphicsCommandList* cmdList);
 
     //セッター
     void SetPipelineState(PipelineState* state) { pso = state; }
@@ -23,3 +25,4 @@ private:
     PipelineState* pso = nullptr;
     TextureSRV* texture = nullptr;
 };
+

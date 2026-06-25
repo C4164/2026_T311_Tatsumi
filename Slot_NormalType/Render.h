@@ -14,6 +14,8 @@
 #include "Camera.h"
 #include "EngineDefs.h"
 #include <vector>
+#include "ConstantBuffer.h"
+#include <stdexcept>
 
 class Render
 {
@@ -36,7 +38,29 @@ public:
 	//•`‰æŠÖ”
 	void Draw();
 
-	void AddObject(GameObject* obj) { objects.push_back(obj); }
+	void DebugDraw();
+
+	void AddObject(GameObject* obj, Mesh* mesh, TextureSRV* texture, Material* mat)
+	{
+		auto device = DeviceManager::Instance().GetDevice();
+		mesh->Init(device, commandList.Get());
+		texture->Init(device, commandList.Get());
+		mat->Init(device);
+
+		UINT slot = nextSlot++;
+
+		obj->Init(
+			DeviceManager::Instance().GetDevice(),
+			DescriptorHeap_CBV_SRV::Instance().GetCPUHandle(slot));
+
+		objects.push_back(obj);
+	}
+
+	void RegisterTexture(TextureSRV* tex)
+	{
+		tex->Init(DeviceManager::Instance().GetDevice(), commandList.Get());
+	}
+
 
 private:
 	Render() = default;
@@ -56,4 +80,6 @@ private:
 
 	UINT width = 0;
 	UINT height = 0;
+
+	UINT nextSlot = 0;
 };

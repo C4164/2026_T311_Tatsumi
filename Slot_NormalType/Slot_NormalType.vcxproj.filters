@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="MyEngine">
+      <UniqueIdentifier>{0507b2f9-e35d-4a79-a16f-b3ee444318c4}</UniqueIdentifier>
+    </Filter>
     <Filter Include="10_Core">
       <UniqueIdentifier>{ca0b319e-cd19-4eb0-8498-48145317338e}</UniqueIdentifier>
     </Filter>
@@ -16,8 +19,11 @@
     <Filter Include="10_Core\Math">
       <UniqueIdentifier>{61dea1de-fbd2-445a-b60b-0f1e96deedc2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MyEngine">
-      <UniqueIdentifier>{0507b2f9-e35d-4a79-a16f-b3ee444318c4}</UniqueIdentifier>
+    <Filter Include="40_Scene">
+      <UniqueIdentifier>{59ee77a8-415d-41c7-9dcc-bb0968676560}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="40_Scene\Base">
+      <UniqueIdentifier>{56a7b407-a593-4c9d-822d-c8487ea669f6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +98,9 @@
     </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>MyEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>40_Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +193,12 @@
     </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>MyEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>40_Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>40_Scene\Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

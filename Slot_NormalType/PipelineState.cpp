@@ -99,7 +99,7 @@ bool PipelineState::Init(
 	desc.RTVFormats[0] = rtvFormat;
 	desc.SampleDesc.Count = 1;
 
-	//パイプラインエステートを作成
+	//パイプラインステートを作成
 	HRESULT hr = device->CreateGraphicsPipelineState(&desc, IID_PPV_ARGS(&pso));
 	return SUCCEEDED(hr);
 }

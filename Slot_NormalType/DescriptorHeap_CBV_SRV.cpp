@@ -19,6 +19,31 @@ bool DescriptorHeap_CBV_SRV::Init(ID3D12Device* device, UINT numDescriptors)
     return true;
 }
 
+D3D12_GPU_DESCRIPTOR_HANDLE DescriptorHeap_CBV_SRV::RegistShaderResource(
+    ID3D12Device* device,
+    ID3D12Resource* resource,
+    const D3D12_SHADER_RESOURCE_VIEW_DESC& desc
+)
+{
+    //CPUハンドルの位置
+    D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle =
+        heap->GetCPUDescriptorHandleForHeapStart();
+    cpuHandle.ptr += (SIZE_T)currentIndex * descriptorSize;
+
+    //GPUハンドルの位置
+    D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle =
+        heap->GetGPUDescriptorHandleForHeapStart();
+    gpuHandle.ptr += (SIZE_T)currentIndex * descriptorSize;
+
+    //SRVを作成
+    device->CreateShaderResourceView(resource, &desc, cpuHandle);
+
+    //次のスロットへ
+    currentIndex++;
+
+    return gpuHandle;
+}
+
 //CPUハンドルを取得する関数
 D3D12_CPU_DESCRIPTOR_HANDLE DescriptorHeap_CBV_SRV::GetCPUHandle(UINT index) const
 {

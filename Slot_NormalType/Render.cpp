@@ -105,9 +105,6 @@ void Render::Draw()
 		commandList.Get()->SetDescriptorHeaps(1, heaps);
 	}
 
-	//パイプラインエステート
-	if (PipelineState::Instance().Get()) { commandList.Get()->SetPipelineState(PipelineState::Instance().Get()); }
-
 	XMMATRIX vp = camera.GetViewProjMatrix();
 	XMMATRIX vpT = XMMatrixTranspose(vp);
 	cameraCB.Update(&vpT, sizeof(vpT));
@@ -146,3 +143,4 @@ void Render::Draw()
 	//画面に表示
 	swapChain.Get()->Present(1, 0);
 }
+

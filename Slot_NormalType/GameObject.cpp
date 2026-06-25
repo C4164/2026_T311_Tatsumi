@@ -6,7 +6,7 @@ void GameObject::Draw(ID3D12GraphicsCommandList* commandList)
 
     //Transform‚©‚çWorldMatrix‚ðì¬
     XMMATRIX world = transform.GetMatrix();
-    XMMATRIX worldT = XMMatrixTranspose(world); // HLSL ‚Í—ñ—Dæ‚È‚Ì‚Å“]’u
+    XMMATRIX worldT = XMMatrixTranspose(world);
 
     //CBV‚É‘‚«ž‚Þ
     cb.Update(&worldT, sizeof(worldT));
@@ -14,7 +14,7 @@ void GameObject::Draw(ID3D12GraphicsCommandList* commandList)
     //b0‚ÉƒoƒCƒ“ƒh
     commandList->SetGraphicsRootConstantBufferView(0, cb.GetGPUAddress());
 
-    // Material¨Mesh‚Ì‡‚Å•`‰æ
+    //Material¨Mesh‚Ì‡‚Å•`‰æ
     material->Bind(commandList);
     mesh->Draw(commandList);
 }

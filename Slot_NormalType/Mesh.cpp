@@ -2,28 +2,38 @@
 
 bool Mesh::Init(
     ID3D12Device* device,
-    ID3D12GraphicsCommandList* cmdList,
-    const void* vertices,
-    UINT vertexSize,
-    UINT vertexCount,
-    const uint16_t* indices,
-    UINT indexCount
+    ID3D12GraphicsCommandList* commandList
 )
 {
     //VB‚ð‰Šú‰»
-    if (!vertexBuffer.Init(device, cmdList, vertices, vertexSize, vertexCount))
+    if (!vertexBuffer.Init(device, commandList, vertices, vertexSize, vertexCount))
     {
         return false;
     }
 
     //IB‚ð‰Šú‰»
-    if (!indexBuffer.Init(device, cmdList, indices, indexCount))
+    if (!indexBuffer.Init(device, commandList, indices, indexCount))
     {
         return false;
     }
 
     this->indexCount = indexCount;
     return true;
+}
+
+void Mesh::SetData(
+    void* vtx, 
+    UINT vtxSize, 
+    UINT vtxCount,
+    uint16_t* idx,
+    UINT idxCount
+) 
+{
+    vertices = vtx;
+    vertexSize = vtxSize;
+    vertexCount = vtxCount;
+    indices = idx;
+    indexCount = idxCount;
 }
 
 void Mesh::Draw(ID3D12GraphicsCommandList* commandList)

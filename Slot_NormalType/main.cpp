@@ -13,6 +13,7 @@
 #include "GameObject.h"
 #include "Camera.h"
 #include "EngineDefs.h"
+#include "GameScene.h"
 
 //ゲームが実行中かどうかを示すフラグ
 //複数のスレッドからアクセスされるため、atomicを使用
@@ -159,15 +160,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 	//RootSignatureを初期化
 	RootSignature::Instance().Init(device);
 
-	//PipelineStateを初期化
-	PipelineState::Instance().Init(device, RootSignature::Instance().Get());
+	//GameSceneを初期化
+	GameScene* gameScene = new GameScene();
+	gameScene->Init();
 
 	//Cameraを初期化
 	render.InitCameraCB(device);
-
-	GameObject* obj = new GameObject();
-	obj->Init(device, DescriptorHeap_CBV_SRV::Instance().GetCPUHandle(Defs::TRANSFORM_SLOT));
-	render.AddObject(obj);
 
 	//スレッドを起動
 	std::thread gameThread(GameThread);
@@ -203,6 +201,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 	gameThread.join();
 	//描画スレッドが処理を完了させるまで待機させる
 	renderThread.join();
+
 	//アプリケーションを正常に終了させる
 	return 0;
 }

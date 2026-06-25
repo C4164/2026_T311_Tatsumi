@@ -3,20 +3,15 @@
 #include <dxgi1_6.h>
 #include "DirectXTex.h"
 #include "d3dx12.h"
+#include "DescriptorHeap_CBV_SRV.h"
 
 using namespace DirectX;
 
 bool TextureSRV::Init(
     ID3D12Device* device,                   //デバイスのポインター
-    ID3D12GraphicsCommandList* commandList, //コマンドリストのポインター
-    const std::wstring& filePath,           //画像のファイルパス
-    D3D12_CPU_DESCRIPTOR_HANDLE _cpuHandle,  //CPUハンドル
-    D3D12_GPU_DESCRIPTOR_HANDLE _gpuHandle   //GPUハンドル
+    ID3D12GraphicsCommandList* commandList //コマンドリストのポインター
 )
 {
-    //GPUハンドルを取得
-    gpuHandle = _gpuHandle;
-
     TexMetadata metadata;   //画像の幅や高さなどのデータ
     ScratchImage scratch;   //画像データ本体
 
@@ -124,7 +119,12 @@ bool TextureSRV::Init(
     srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
     srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
     srvDesc.Texture2D.MipLevels = (UINT)metadata.mipLevels;
-    device->CreateShaderResourceView(texture.Get(), &srvDesc, _cpuHandle);
+
+    gpuHandle = DescriptorHeap_CBV_SRV::Instance().RegistShaderResource(
+        device,
+        texture.Get(),
+        srvDesc
+    );
 
     //正常終了
     return true;

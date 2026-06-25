@@ -24,6 +24,7 @@ public:
 private:
 	//コンストラクタ
 	DeviceManager() = default;
+	~DeviceManager() = default;
 
 	//生成関数
 	bool CreateFactory();
