@@ -125,5 +125,5 @@ namespace Const
 	//縦幅
 	constexpr float SYMBOLDISTANCE_WIDTH = 1.5f;
 	//横幅
-	constexpr float SYMBOLDISTANCE_HEIGHT = 1.5f;
+	constexpr float SYMBOLDISTANCE_HEIGHT = 1.25f;
 }

@@ -156,10 +156,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 	Render& render = Render::Instance();
 
 	//Render‚ğ‰Šú‰»
-	if (!render.Init(hwnd, WindowManager::Instance().Width(), WindowManager::Instance().Height()))
-	{
-		
-	}
+	render.Init(hwnd, WindowManager::Instance().Width(), WindowManager::Instance().Height());
 
 	auto device = DeviceManager::Instance().GetDevice();
 
