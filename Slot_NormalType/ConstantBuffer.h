@@ -13,8 +13,7 @@ public:
     //‰Šú‰»ŠÖ”
     bool Init(
         ID3D12Device* device,
-        UINT bufferSize,
-        D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle
+        UINT bufferSize
     );
 
     //XVŠÖ”

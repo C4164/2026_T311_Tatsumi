@@ -78,7 +78,7 @@
     <ClCompile Include="TextureSRV.cpp">
       <Filter>MyEngine</Filter>
     </ClCompile>
-    <ClCompile Include="DescriptorHeap_CBV_SRV.cpp">
+    <ClCompile Include="DescriptorHeap_SRV.cpp">
       <Filter>MyEngine</Filter>
     </ClCompile>
     <ClCompile Include="VertexBuffer.cpp">
@@ -164,7 +164,7 @@
     <ClInclude Include="TextureSRV.h">
       <Filter>MyEngine</Filter>
     </ClInclude>
-    <ClInclude Include="DescriptorHeap_CBV_SRV.h">
+    <ClInclude Include="DescriptorHeap_SRV.h">
       <Filter>MyEngine</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.h">

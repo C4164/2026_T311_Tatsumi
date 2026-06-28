@@ -18,3 +18,4 @@ void GameObject::Draw(ID3D12GraphicsCommandList* commandList)
     material->Bind(commandList);
     mesh->Draw(commandList);
 }
+

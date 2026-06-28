@@ -101,5 +101,10 @@ bool PipelineState::Init(
 
 	//パイプラインステートを作成
 	HRESULT hr = device->CreateGraphicsPipelineState(&desc, IID_PPV_ARGS(&pso));
+	if (FAILED(hr))
+	{
+		OutputDebugStringA("PSO creation failed!\n");
+	}
+
 	return SUCCEEDED(hr);
 }

@@ -99,17 +99,19 @@ void Render::Draw()
 	if (RootSignature::Instance().Get()) { commandList.Get()->SetGraphicsRootSignature(RootSignature::Instance().Get()); }
 
 	//ディスクリプタヒープ
-	if (DescriptorHeap_CBV_SRV::Instance().GetHeap())
+	if (DescriptorHeap_SRV::Instance().GetHeap())
 	{
-		ID3D12DescriptorHeap* heaps[] = { DescriptorHeap_CBV_SRV::Instance().GetHeap() };
+		ID3D12DescriptorHeap* heaps[] = { DescriptorHeap_SRV::Instance().GetHeap() };
 		commandList.Get()->SetDescriptorHeaps(1, heaps);
 	}
+
+	commandList.Get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	XMMATRIX vp = camera.GetViewProjMatrix();
 	XMMATRIX vpT = XMMatrixTranspose(vp);
 	cameraCB.Update(&vpT, sizeof(vpT));
 
-	//b1にバインド(b0 は GameObject の world)
+	//b1にバインド(b0はGameObjectのworld)
 	commandList.Get()->SetGraphicsRootConstantBufferView(1, cameraCB.GetGPUAddress());
 
 	//GameObjectの描画
@@ -144,18 +146,3 @@ void Render::Draw()
 	swapChain.Get()->Present(1, 0);
 }
 
-void Render::AddObject(GameObject* obj, Mesh* mesh, TextureSRV* texture, Material* mat)
-{
-	auto device = DeviceManager::Instance().GetDevice();
-	mesh->Init(device, commandList.Get());
-	texture->Init(device, commandList.Get());
-	mat->Init(device);
-
-	UINT slot = nextSlot++;
-
-	obj->Init(
-		DeviceManager::Instance().GetDevice(),
-		DescriptorHeap_CBV_SRV::Instance().GetCPUHandle(slot));
-
-	objects.push_back(obj);
-}

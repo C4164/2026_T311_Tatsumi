@@ -15,14 +15,17 @@ public:
     Transform transform;
 
     //初期化関数
-    bool Init(ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle)
+    bool Init(ID3D12Device* device)
     {
-        return cb.Init(device, sizeof(XMMATRIX), cpuHandle);
+        return cb.Init(device, sizeof(XMMATRIX));
     }
 
     //描画関数
     void Draw(ID3D12GraphicsCommandList* commandList);
 
+    //ゲッター
+    Mesh* GetMesh()const { return mesh; }
+    Material* GetMaterial()const { return material; }
     //セッター
     void SetMesh(Mesh* m) { mesh = m; }
     void SetMaterial(Material* mat) { material = mat; }

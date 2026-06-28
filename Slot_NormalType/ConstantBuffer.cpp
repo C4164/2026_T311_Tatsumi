@@ -2,9 +2,8 @@
 #include "d3dx12.h"
 
 bool ConstantBuffer::Init(
-	ID3D12Device* device,                   //デバイスのポインター
-	UINT bufferSize,                        //定数バッファーのサイズ
-	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle   //CPUのハンドル
+	ID3D12Device* device,	//デバイスのポインター
+	UINT bufferSize			//定数バッファーのサイズ
 )
 {
 	//256バイトの倍数分確保
@@ -34,17 +33,6 @@ bool ConstantBuffer::Init(
 	//失敗したらfalseを返して終了
 	if (FAILED(hr)) { return false; }
 
-	//CBVの情報をまとめる構造体
-	D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc = {};
-	//GPUがバッファーを読むためのアドレス
-	cbvDesc.BufferLocation = buffer->GetGPUVirtualAddress();
-	//サイズを設定
-	cbvDesc.SizeInBytes = alignedSize;
-
-	//CPUハンドルにCBVを作成
-	device->CreateConstantBufferView(&cbvDesc, cpuHandle);
-
-	//正常終了
 	return true;
 }
 

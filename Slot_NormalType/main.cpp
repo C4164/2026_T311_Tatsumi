@@ -9,7 +9,7 @@
 #include "DeviceManager.h"
 #include "RootSignature.h"
 #include "PipelineState.h"
-#include "DescriptorHeap_CBV_SRV.h"
+#include "DescriptorHeap_SRV.h"
 #include "GameObject.h"
 #include "Camera.h"
 #include "EngineDefs.h"
@@ -22,48 +22,54 @@ std::atomic<bool> running = true;
 /// <summary>
 /// ゲームのメインスレッドを表す関数
 /// </summary>
-void GameThread()
-{
-	//60FPSで動作するループ
-	const float deltaTime = 1.0f / 60.0f;
-	//前回のフレームの時間を保存する変数
-	auto prev = std::chrono::high_resolution_clock::now();
-	//経過時間を保存する変数
-	float accumulator = 0.0f;
-
-	//ゲームが実行中である限りループを続ける
-	while (running)
-	{
-		//現在の時間を取得
-		auto now = std::chrono::high_resolution_clock::now();
-		//前回のフレームからの経過時間を計算
-		float frameTime = std::chrono::duration<float>(now - prev).count();
-		//前回のフレームを更新
-		prev = now;
-
-		//経過時間を蓄積
-		accumulator += frameTime;
-
-		//累積された時間が1フレーム分を超えたらゲームを更新
-		while (accumulator >= deltaTime)
-		{
-			Input::Reset();									//キーの状態をリセット
-			GameContext::Instance().Update(deltaTime);	//ゲームの状態更新
-			accumulator -= deltaTime;						//蓄積時間を減少
-		}
-	}
-}
+//void GameThread()
+//{
+//	//60FPSで動作するループ
+//	const float deltaTime = 1.0f / 60.0f;
+//	//前回のフレームの時間を保存する変数
+//	auto prev = std::chrono::high_resolution_clock::now();
+//	//経過時間を保存する変数
+//	float accumulator = 0.0f;
+//
+//	//ゲームが実行中である限りループを続ける
+//	while (running)
+//	{
+//		//現在の時間を取得
+//		auto now = std::chrono::high_resolution_clock::now();
+//		//前回のフレームからの経過時間を計算
+//		float frameTime = std::chrono::duration<float>(now - prev).count();
+//		//前回のフレームを更新
+//		prev = now;
+//
+//		//経過時間を蓄積
+//		accumulator += frameTime;
+//
+//		//累積された時間が1フレーム分を超えたらゲームを更新
+//		while (accumulator >= deltaTime)
+//		{
+//			Input::Reset();									//キーの状態をリセット
+//			GameContext::Instance().Update(deltaTime);	//ゲームの状態更新
+//			accumulator -= deltaTime;						//蓄積時間を減少
+//		}
+//	}
+//}
 
 /// <summary>
 /// 描画処理のスレッドを表す関数
 /// </summary>
-void RenderThread()
-{
-	while (running)
-	{
-		Render::Instance().Draw(); //描画処理
-	}
-}
+//void RenderThread()
+//{
+//	Render& render = Render::Instance();
+//
+//	render.BeginFrame();
+//	render.InitSceneObjects();
+//	render.EndFrame();
+//
+//	while (running)
+//	{
+//		Render::Instance().Draw(); //描画処理
+//	}
+//}
 
 /// <summary>
 /// ウィンドウプロシージャ関数
@@ -150,26 +156,30 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 	Render& render = Render::Instance();
 
 	//Renderを初期化
-	render.Init(hwnd, WindowManager::Instance().Width(), WindowManager::Instance().Height());
+	if (!render.Init(hwnd, WindowManager::Instance().Width(), WindowManager::Instance().Height()))
+	{
+		
+	}
 
 	auto device = DeviceManager::Instance().GetDevice();
 
 	//DescriptorHeapを初期化
-	DescriptorHeap_CBV_SRV::Instance().Init(device, Defs::DESCRIPTOR_COUNT);
+	DescriptorHeap_SRV::Instance().Init(device, Defs::DESCRIPTOR_COUNT);
 
 	//RootSignatureを初期化
 	RootSignature::Instance().Init(device);
+
+	//Cameraを初期化
+	render.InitCameraCB(device);
 
 	//GameSceneを初期化
 	GameScene* gameScene = new GameScene();
 	gameScene->Init();
 
-	//Cameraを初期化
-	render.InitCameraCB(device);
-
-	//スレッドを起動
-	std::thread gameThread(GameThread);
-	std::thread renderThread(RenderThread);
+	//タイマー
+	const float deltaTime = 1.0f / 60.0f;
+	auto prev = std::chrono::high_resolution_clock::now();
+	float accumulator = 0.0f;
 
 	//MSGはメッセージを格納するための構造体
 	//そのインスタンスを作成し、０で初期化
@@ -193,14 +203,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 			//取り出したメッセージをウィンドウプロシージャに渡す
 			DispatchMessage(&msg);
 		}
+
+		//時間計測
+		auto now = std::chrono::high_resolution_clock::now();
+		float frameTime = std::chrono::duration<float>(now - prev).count();
+		prev = now;
+		accumulator += frameTime;
+
+		//60FPS更新
+		while (accumulator >= deltaTime)
+		{
+			Input::Reset();
+			GameContext::Instance().Update(deltaTime);
+			accumulator -= deltaTime;
+		}
+
+		//描画
+		render.Draw();
+
 		//CPUを1ミリ秒休ませる
 		//CPUの無駄な消費を抑えられる
 		Sleep(1);
 	}
-	//ゲームスレッドが処理を完了させるまで待機させる
-	gameThread.join();
-	//描画スレッドが処理を完了させるまで待機させる
-	renderThread.join();
 
 	//アプリケーションを正常に終了させる
 	return 0;

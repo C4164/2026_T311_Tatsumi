@@ -3,7 +3,7 @@
 #include <dxgi1_6.h>
 #include "DirectXTex.h"
 #include "d3dx12.h"
-#include "DescriptorHeap_CBV_SRV.h"
+#include "DescriptorHeap_SRV.h"
 
 using namespace DirectX;
 
@@ -24,7 +24,7 @@ bool TextureSRV::Init(
     //ピクセルデータを取得
     const Image* img = scratch.GetImage(0, 0, 0);
 
-    //ミニマップを生成
+    //ミップマップを生成
     ScratchImage mipChain;
     hr = GenerateMipMaps(
         scratch.GetImages(),
@@ -57,7 +57,7 @@ bool TextureSRV::Init(
 
     //テクスチャの形状を指定
     CD3DX12_RESOURCE_DESC texDesc = CD3DX12_RESOURCE_DESC::Tex2D(
-        metadata.format,
+        format,
         metadata.width,
         metadata.height,
         (UINT16)metadata.arraySize,
@@ -78,7 +78,8 @@ bool TextureSRV::Init(
     if (FAILED(hr)) { return false; }
 
     //転送に必要なバッファサイズを計算
-    UINT64 uploadSize = GetRequiredIntermediateSize(texture.Get(), 0, 1);
+    UINT numSubresources = (UINT)metadata.mipLevels * (UINT)metadata.arraySize;
+    UINT64 uploadSize = GetRequiredIntermediateSize(texture.Get(), 0, numSubresources);
 
     //CPUが書き込めるメモリであるUPLOADヒープ
     CD3DX12_HEAP_PROPERTIES uploadHeap(D3D12_HEAP_TYPE_UPLOAD);
@@ -98,19 +99,36 @@ bool TextureSRV::Init(
     //失敗したらfalseを返して終了
     if (FAILED(hr)) { return false; }
 
-    //テクスチャデータをGPUにコピー
-    D3D12_SUBRESOURCE_DATA subresource = {};
-    subresource.pData = img->pixels;
-    subresource.RowPitch = img->rowPitch;
-    subresource.SlicePitch = img->slicePitch;
-    UpdateSubresources(commandList, texture.Get(), uploadBuffer.Get(), 0, 0, 1, &subresource);
+    //DirectXTexのヘルパーを使って全部のサブリソースをコピー
+    auto images = mipChain.GetImages();
+    auto imageCount = mipChain.GetImageCount();
+    auto meta = mipChain.GetMetadata();
 
-    //書き込み専用から読み取り専用に状態遷移
-    CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
+    std::vector<D3D12_SUBRESOURCE_DATA> subresources(imageCount);
+    for (size_t i = 0; i < imageCount; ++i)
+    {
+        const Image* img = &images[i];
+        subresources[i].pData = img->pixels;
+        subresources[i].RowPitch = img->rowPitch;
+        subresources[i].SlicePitch = img->slicePitch;
+    }
+
+    UpdateSubresources(
+        commandList,
         texture.Get(),
-        D3D12_RESOURCE_STATE_COPY_DEST,
-        D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE
+        uploadBuffer.Get(),
+        0, 0,
+        (UINT)imageCount,
+        subresources.data()
     );
+
+    //全サブリソースをCOPY_DEST→PIXEL_SHADER_RESOURCEに遷移
+    CD3DX12_RESOURCE_BARRIER barrier =
+        CD3DX12_RESOURCE_BARRIER::Transition(
+            texture.Get(),
+            D3D12_RESOURCE_STATE_COPY_DEST,
+            D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE
+        );
     commandList->ResourceBarrier(1, &barrier);
 
     //SRVを作成
@@ -120,7 +138,7 @@ bool TextureSRV::Init(
     srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
     srvDesc.Texture2D.MipLevels = (UINT)metadata.mipLevels;
 
-    gpuHandle = DescriptorHeap_CBV_SRV::Instance().RegistShaderResource(
+    gpuHandle = DescriptorHeap_SRV::Instance().RegistShaderResource(
         device,
         texture.Get(),
         srvDesc

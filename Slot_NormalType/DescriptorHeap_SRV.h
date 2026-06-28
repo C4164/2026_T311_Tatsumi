@@ -3,13 +3,13 @@
 #include <wrl.h>
 #include "ComPtr.h"
 
-class DescriptorHeap_CBV_SRV
+class DescriptorHeap_SRV
 {
 public:
 	//シングルトン
-	static DescriptorHeap_CBV_SRV& Instance()
+	static DescriptorHeap_SRV& Instance()
 	{
-		static DescriptorHeap_CBV_SRV instance;
+		static DescriptorHeap_SRV instance;
 		return instance;
 	}
 
@@ -30,7 +30,7 @@ public:
 
 private:
 	//コンストラクタ
-	DescriptorHeap_CBV_SRV() = default;
+	DescriptorHeap_SRV() = default;
 
 	ComPtr<ID3D12DescriptorHeap> heap;
 	UINT descriptorSize = 0;

@@ -17,6 +17,9 @@ public:
     //描画時に呼ぶ
     void Bind(ID3D12GraphicsCommandList* cmdList);
 
+    //ゲッター
+    TextureSRV* GetTexture()const { return texture; }
+
     //セッター
     void SetPipelineState(PipelineState* state) { pso = state; }
     void SetTexture(TextureSRV* tex) { texture = tex; }

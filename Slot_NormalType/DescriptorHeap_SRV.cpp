@@ -1,7 +1,8 @@
-#include "DescriptorHeap_CBV_SRV.h"
+#include "DescriptorHeap_SRV.h"
 #include <d3dx12.h>
+#include "EngineDefs.h"
 
-bool DescriptorHeap_CBV_SRV::Init(ID3D12Device* device, UINT numDescriptors)
+bool DescriptorHeap_SRV::Init(ID3D12Device* device, UINT numDescriptors)
 {
     //ヒープの作成
     D3D12_DESCRIPTOR_HEAP_DESC desc = {};
@@ -15,16 +16,23 @@ bool DescriptorHeap_CBV_SRV::Init(ID3D12Device* device, UINT numDescriptors)
     //インクリメントするメモリのサイズを取得
     descriptorSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
+    currentIndex = 0;
+
     //正常終了
     return true;
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE DescriptorHeap_CBV_SRV::RegistShaderResource(
+D3D12_GPU_DESCRIPTOR_HANDLE DescriptorHeap_SRV::RegistShaderResource(
     ID3D12Device* device,
     ID3D12Resource* resource,
     const D3D12_SHADER_RESOURCE_VIEW_DESC& desc
 )
 {
+    if (currentIndex >= Defs::DESCRIPTOR_COUNT) {
+        OutputDebugStringA("ERROR: DescriptorHeap overflow\n");
+        return { 0 };
+    }
+
     //CPUハンドルの位置
     D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle =
         heap->GetCPUDescriptorHandleForHeapStart();
@@ -45,16 +53,18 @@ D3D12_GPU_DESCRIPTOR_HANDLE DescriptorHeap_CBV_SRV::RegistShaderResource(
 }
 
 //CPUハンドルを取得する関数
-D3D12_CPU_DESCRIPTOR_HANDLE DescriptorHeap_CBV_SRV::GetCPUHandle(UINT index) const
+D3D12_CPU_DESCRIPTOR_HANDLE DescriptorHeap_SRV::GetCPUHandle(UINT index) const
 {
     D3D12_CPU_DESCRIPTOR_HANDLE handle = heap->GetCPUDescriptorHandleForHeapStart();
     handle.ptr += index * descriptorSize;
     return handle;
 }
 //GPUハンドルを取得する関数
-D3D12_GPU_DESCRIPTOR_HANDLE DescriptorHeap_CBV_SRV::GetGPUHandle(UINT index) const
+D3D12_GPU_DESCRIPTOR_HANDLE DescriptorHeap_SRV::GetGPUHandle(UINT index) const
 {
     D3D12_GPU_DESCRIPTOR_HANDLE handle = heap->GetGPUDescriptorHandleForHeapStart();
     handle.ptr += index * descriptorSize;
     return handle;
 }
+
+

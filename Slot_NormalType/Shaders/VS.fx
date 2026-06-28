@@ -26,7 +26,6 @@ VSOutput main(VSInput input)
 
     float4 pos = float4(input.pos, 1.0f);
 
-    // ³‚µ‚¢‡”ÔiDirectXMath ‚Æˆê’vj
     pos = mul(pos, world);
     pos = mul(pos, viewProj);
 

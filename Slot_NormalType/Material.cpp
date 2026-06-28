@@ -11,7 +11,17 @@ bool Material::Init(ID3D12Device* device)
 void Material::Bind(ID3D12GraphicsCommandList* cmdList)
 {
     auto rs = RootSignature::Instance().Get();
-    if (!rs || !pso || !pso->Get()) return;
+    if (!rs)
+    { 
+        OutputDebugStringA("RootSignature Instance null\n");
+        return; 
+    }
+
+    if (!pso || !pso->Get()) 
+    { 
+        OutputDebugStringA("PSO null\n");
+        return; 
+    }
 
     cmdList->SetGraphicsRootSignature(rs);
     cmdList->SetPipelineState(pso->Get());
@@ -19,7 +29,7 @@ void Material::Bind(ID3D12GraphicsCommandList* cmdList)
     //テクスチャをセット
     if (texture)
     {
-        cmdList->SetGraphicsRootDescriptorTable(0, texture->GetGPUHandle());
+        cmdList->SetGraphicsRootDescriptorTable(2, texture->GetGPUHandle());
     }
 }
 

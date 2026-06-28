@@ -6,5 +6,5 @@ namespace Defs
 	static const UINT TRANSFORM_SLOT = 0;
 	static const UINT CAMERA_SLOT = 1;
 	static const UINT TEXTURE_SLOT = 2;
-	static const UINT DESCRIPTOR_COUNT = 64;
+	static const UINT DESCRIPTOR_COUNT = 128;
 }

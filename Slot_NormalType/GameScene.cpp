@@ -46,10 +46,12 @@ void GameScene::Init()
     obj->SetMaterial(mat);
     obj->transform.position = { 0, 0, 0 };
     obj->transform.rotation = { 0, 0, 0 };
-    obj->transform.scale = { 100, 100, 100 };
+    obj->transform.scale = { 1, 1, 1 };
 
     //Render‚É“o˜^
     Render::Instance().AddObject(obj, mesh, texture, mat);
+
+    Render::Instance().InitSceneObjects();
 }
 
 
