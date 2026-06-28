@@ -38,44 +38,9 @@ public:
 	//描画関数
 	void Draw();
 
-	void AddObject(GameObject* obj, Mesh* mesh, TextureSRV* texture, Material* mat) 
+	void AddObject(GameObject* obj) 
 	{
 		objects.push_back(obj);
-	}
-
-	void InitSceneObjects()
-	{
-		//それぞれのポインターを取得
-		ID3D12Device* device = DeviceManager::Instance().GetDevice();
-		ID3D12CommandQueue* queue = commandQueue.Get();
-
-		//コマンドアロケータとコマンドリストをリセット
-		commandAllocator.Get()->Reset();
-		commandList.Reset(commandAllocator.Get());
-
-		for (auto& obj : objects)
-		{
-			obj->GetMesh()->Init(device, commandList.Get());
-			obj->GetMaterial()->Init(device);
-			obj->GetMaterial()->GetTexture()->Init(device, commandList.Get());
-			obj->Init(DeviceManager::Instance().GetDevice());
-		}
-
-		//コマンドリストを閉じて書き込み終了
-		commandList.Close();
-
-		//命令をGPUに送信
-		ID3D12CommandList* lists[] = { commandList.Get() };
-		queue->ExecuteCommandLists(1, lists);
-
-		//GPUの完了を待つ
-		fence.Signal(queue);
-		fence.Wait();
-	}
-
-	void RegisterTexture(TextureSRV* tex)
-	{
-		tex->Init(DeviceManager::Instance().GetDevice(), commandList.Get());
 	}
 
 
@@ -83,7 +48,6 @@ private:
 	Render() = default;
 
 	//インスタンス
-	CommandQueue     commandQueue;
 	CommandAllocator commandAllocator;
 	CommandList      commandList;
 	Fence            fence;

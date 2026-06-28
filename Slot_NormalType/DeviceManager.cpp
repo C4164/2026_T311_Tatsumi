@@ -17,6 +17,9 @@ bool DeviceManager::Init()
 
 if (!CreateFactory()) { return false; }	//ファクトリーを生成
 if (!CreateDevice()) { return false; }	//デバイスを作成
+if (!CreateCommandQueue()) { return false; }
+if (!CreateCommandList()) { return false; }
+if (!fence.Init(device.Get())) { return false; }
 return true;
 }
 
@@ -64,4 +67,36 @@ bool DeviceManager::CreateDevice()
 		}
 	}
 	return false;
+}
+
+bool DeviceManager::CreateCommandQueue()
+{
+	return commandQueue.Init(device.Get());
+}
+
+bool DeviceManager::CreateCommandList()
+{
+	//コマンドアロケータ
+	if (!commandAllocator.Init(device.Get())) { return false; }
+
+	//コマンドリスト
+	if (!commandList.Init(device.Get(), commandAllocator.Get())) { return false; }
+
+	return true;
+}
+
+void DeviceManager::ResetCommandList()
+{
+	commandList.Reset(commandAllocator.Get());
+}
+
+void DeviceManager::ExecuteCommandList()
+{
+	commandList.Close();
+
+	ID3D12CommandList* lists[] = { commandList.Get() };
+	commandQueue.Get()->ExecuteCommandLists(1, lists);
+
+	fence.Signal(commandQueue.Get());
+	fence.Wait();
 }

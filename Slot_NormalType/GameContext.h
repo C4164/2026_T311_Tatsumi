@@ -1,4 +1,5 @@
 #pragma once
+#include "GameScene.h"
 
 class GameContext
 {
@@ -9,8 +10,11 @@ public:
 		return instance;
 	}
 
+	void Init();
 	void Update(float deltaTime);
 
 private:
 	GameContext() = default;
+
+	GameScene gameScene = {};
 };

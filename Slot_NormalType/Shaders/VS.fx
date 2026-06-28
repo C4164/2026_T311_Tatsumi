@@ -22,15 +22,15 @@ struct VSOutput
 
 VSOutput main(VSInput input)
 {
-    VSOutput output;
+    VSOutput o;
 
     float4 pos = float4(input.pos, 1.0f);
 
-    pos = mul(pos, world);
-    pos = mul(pos, viewProj);
+    pos = mul(world, pos);
+    pos = mul(viewProj, pos);
 
-    output.pos = pos;
-    output.uv = input.uv;
+    o.pos = pos;
+    o.uv = input.uv;
 
-    return output;
+    return o;
 }

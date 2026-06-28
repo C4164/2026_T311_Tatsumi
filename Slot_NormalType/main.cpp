@@ -172,9 +172,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 	//Cameraを初期化
 	render.InitCameraCB(device);
 
-	//GameSceneを初期化
-	GameScene* gameScene = new GameScene();
-	gameScene->Init();
+	GameContext::Instance().Init();
 
 	//タイマー
 	const float deltaTime = 1.0f / 60.0f;

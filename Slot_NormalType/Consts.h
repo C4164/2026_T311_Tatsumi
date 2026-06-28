@@ -33,9 +33,9 @@ namespace Const
 	constexpr std::array<uint16_t, SETTING> CHERRY_STRENGTH_2{ 60 };					//強チェリー2
 
 	//図柄の種類
-	constexpr enum Symbols 
+	constexpr enum Symbols
 	{
-		blankSymbol,
+		blankSymbol = 0,
 		bellSymbol,
 		replaySymbol,
 		melonSymbol,
@@ -120,4 +120,10 @@ namespace Const
 		barSymbol,
 		cherrySymbol
 	};
+
+	//図柄の表示間隔
+	//縦幅
+	constexpr float SYMBOLDISTANCE_WIDTH = 1.5f;
+	//横幅
+	constexpr float SYMBOLDISTANCE_HEIGHT = 1.5f;
 }

@@ -1,71 +1,46 @@
 #include "GameScene.h"
-#include <string>
-#include "PipelineState.h"
-#include "DeviceManager.h"
+#include "Resource.h"
+#include "ResourceManager.h"
+#include "ObjectFactory.h"
+
+
 
 void GameScene::Init()
 {
-    //Mesh
-    struct Vertex { XMFLOAT3 pos; XMFLOAT2 uv; };
+	DeviceManager::Instance().ResetCommandList();
 
-    Vertex vertices[] =
-    {
-        {{-0.5f,  0.5f, 0}, {0,0}},
-        {{ 0.5f,  0.5f, 0}, {1,0}},
-        {{ 0.5f, -0.5f, 0}, {1,1}},
-        {{-0.5f, -0.5f, 0}, {0,1}},
-    };
+	ResourceManager::LoadTexture(Resource::blankPath);
+	ResourceManager::LoadTexture(Resource::bellPath);
+	ResourceManager::LoadTexture(Resource::replayPath);
+	ResourceManager::LoadTexture(Resource::melonPath);
+	ResourceManager::LoadTexture(Resource::cherryPath);
+	ResourceManager::LoadTexture(Resource::sevenPath);
+	ResourceManager::LoadTexture(Resource::barPath);
 
-    uint16_t indices[] = { 0,1,2, 0,2,3 };
+	XMFLOAT3 createPos = { -Const::SYMBOLDISTANCE_WIDTH,Const::SYMBOLDISTANCE_HEIGHT,0 };
+	XMFLOAT3 createScale = { 1.5f,1.5f,1.5f };
 
-    Mesh* mesh = new Mesh();
-    mesh->SetData(
-        vertices, 
-        sizeof(Vertex), 
-        _countof(vertices),
-        indices, 
-        _countof(indices)
-    );
+	for (int i = 0; i < Const::REELSYMBOL_NUM; i++)
+	{
+		Const::Symbols symbol = Const::REELTABLE_LEFT[i];
+		leftReelObjects[i] = ObjectFactory::CreateObject(Resource::SymbolPaths[symbol], createPos, createScale);
+		createPos.x += Const::SYMBOLDISTANCE_WIDTH;
 
-    //Texture
-    TextureSRV* texture = new TextureSRV();
-    texture->SetPath(L"Data/Texture/chery.png");
+		symbol = Const::REELTABLE_CENTER[i];
+		centerReelObjects[i] = ObjectFactory::CreateObject(Resource::SymbolPaths[symbol], createPos, createScale);
+		createPos.x += Const::SYMBOLDISTANCE_WIDTH;
 
-    //Material
-    Material* mat = new Material();
-    mat->SetTexture(texture);
+		symbol = Const::REELTABLE_RIGHT[i];
+		rightReelObjects[i] = ObjectFactory::CreateObject(Resource::SymbolPaths[symbol], createPos, createScale);
+		createPos.x -= Const::SYMBOLDISTANCE_WIDTH * 2.0f;
+		createPos.y -= Const::SYMBOLDISTANCE_HEIGHT;
+	}
 
-    //
-    PipelineState* pso = new PipelineState();
-    pso->Init(DeviceManager::Instance().GetDevice(), RootSignature::Instance().Get());
-    mat->SetPipelineState(pso);
-
-    // GameObject
-    GameObject* obj = new GameObject();
-    obj->SetMesh(mesh);
-    obj->SetMaterial(mat);
-    obj->transform.position = { 0, 0, 0 };
-    obj->transform.rotation = { 0, 0, 0 };
-    obj->transform.scale = { 1, 1, 1 };
-
-    //Render‚É“o˜^
-    Render::Instance().AddObject(obj, mesh, texture, mat);
-
-    Render::Instance().InitSceneObjects();
+	DeviceManager::Instance().ExecuteCommandList();
 }
 
 
 void GameScene::Update(float deltaTime)
-{
-
-}
-
-void GameScene::Render()
-{
-
-}
-
-void GameScene::End()
 {
 
 }

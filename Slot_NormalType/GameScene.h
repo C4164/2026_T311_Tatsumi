@@ -1,9 +1,6 @@
 #pragma once
 #include "Scene.h"
-#include "Mesh.h"
-#include "Material.h"
-#include "Render.h"
-#include "TextureSRV.h"
+#include "Consts.h"
 
 class GameScene : public Scene
 {
@@ -13,8 +10,11 @@ public:
 
     void Init() override;
     void Update(float deltaTime) override;
-    void Render() override;
-    void End() override;
+
+private:
+    std::array<GameObject*, Const::REELSYMBOL_NUM>leftReelObjects;
+    std::array<GameObject*, Const::REELSYMBOL_NUM>centerReelObjects;
+    std::array<GameObject*, Const::REELSYMBOL_NUM>rightReelObjects;
 };
 
 

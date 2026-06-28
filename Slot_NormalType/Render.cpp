@@ -12,9 +12,6 @@ bool Render::Init(HWND hwnd, UINT _width, UINT _height)
 	if (!DeviceManager::Instance().Init()) { return false; }
 	ID3D12Device* device = DeviceManager::Instance().GetDevice();
 
-	//コマンドキュー
-	if (!commandQueue.Init(device)) { return false; }
-
 	//コマンドアロケーター
 	if (!commandAllocator.Init(device)) { return false; }
 
@@ -27,7 +24,7 @@ bool Render::Init(HWND hwnd, UINT _width, UINT _height)
 	//スワップチェーン
 	if (!swapChain.Init(
 		DeviceManager::Instance().GetFactory(),
-		commandQueue.Get(),
+		DeviceManager::Instance().GetCommandQueue(),
 		hwnd,
 		width,
 		height))
@@ -46,7 +43,7 @@ void Render::Draw()
 {
 	//それぞれのポインターを取得
 	ID3D12Device* device = DeviceManager::Instance().GetDevice();
-	ID3D12CommandQueue* queue = commandQueue.Get();
+	ID3D12CommandQueue* queue = DeviceManager::Instance().GetCommandQueue();
 
 	//コマンドアロケータとコマンドリストをリセット
 	commandAllocator.Get()->Reset();

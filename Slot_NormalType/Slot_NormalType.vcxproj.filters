@@ -102,6 +102,12 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>40_Scene</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectFactory.cpp">
+      <Filter>MyEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>MyEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -199,6 +205,15 @@
     </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>40_Scene\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>MyEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFactory.h">
+      <Filter>MyEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>20_Resource</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
