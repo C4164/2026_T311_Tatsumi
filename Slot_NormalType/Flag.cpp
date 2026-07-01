@@ -1,6 +1,7 @@
 #include "Flag.h"
 #include "Random.h"
 #include <intrin.h>
+#include <string>
 
 void Flag::Init()
 {
@@ -41,6 +42,7 @@ MinorPrize Flag::FlagUp(const int setting)
 {
 	//16bit‚Ì—”‚ğæ“¾
 	uint16_t t = rng.GetRandom16();
+
 	//—İÏ—p‚Ì•Ï”
 	uint16_t sum = 0;
 

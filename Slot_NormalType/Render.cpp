@@ -90,7 +90,7 @@ void Render::Draw()
 	commandList.Get()->OMSetRenderTargets(1, &rtvHandle, FALSE, nullptr);
 
 	//画面クリア
-	float clearColor[] = { 0.1f, 0.2f, 0.4f, 1.0f };
+	float clearColor[] = { 0.8f, 0.8f, 0.8f, 0.0f };
 	commandList.Get()->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 
 	//ルートシグネチャ

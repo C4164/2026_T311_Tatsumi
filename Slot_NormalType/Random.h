@@ -53,7 +53,7 @@ struct Xoroshiro128PP {
 
 
 //ƒn[ƒh—”‚Ì64bit—”‚ğ•Ô‚·
-uint64_t GetHardwareRandom64()
+inline uint64_t GetHardwareRandom64()
 {
 	uint64_t v;
 

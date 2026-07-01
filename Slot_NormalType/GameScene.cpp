@@ -1,11 +1,13 @@
 #include "GameScene.h"
 #include "DeviceManager.h"
 #include "Render.h"
+#include "Flag.h"
 
 void GameScene::Init()
 {
 	DeviceManager::Instance().ResetCommandList();
 
+	Flag::Instance().Init();
 	ui.Init();
 	reel.Init();
 

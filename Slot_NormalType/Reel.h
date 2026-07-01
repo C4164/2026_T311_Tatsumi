@@ -18,20 +18,27 @@ private:
 
 	//リールを回転させる関数
 	void UpdatePosition(
-		float deltaTime, 
-		std::array<GameObject*, Const::REELSYMBOL_NUM> reelObjects, 
-		bool isSpin, 
+		float deltaTime,
+		std::array<GameObject*, Const::REELSYMBOL_NUM> reelObjects,
+		bool isSpin,
 		bool isStop);
 
 	//リールを停止させる関数
 	void ReelStop(
-		float deltaTime, 
-		std::array<GameObject*, Const::REELSYMBOL_NUM> reelObjects, 
-		bool& isSpin, 
+		float deltaTime,
+		std::array<GameObject*, Const::REELSYMBOL_NUM> reelObjects,
+		bool& isSpin,
 		bool isStop);
 
 	//停止形を決定する関数
-	void SetTargetIndex(std::array<GameObject*, Const::REELSYMBOL_NUM> reelObjects);
+	//リールを５つごとに分けて、停止形を決定する
+	void SetTargetIndex_Left();
+	void SetTargetIndex_Center();
+	void SetTargetIndex_Right();
+
+	int TargetIndexCalc(int stopIdx, int target);
+
+	void SetStopIndex(std::array<GameObject*, Const::REELSYMBOL_NUM> reelObjects);
 
 	std::array<GameObject*, Const::REELSYMBOL_NUM>leftReelObjects{};
 	std::array<GameObject*, Const::REELSYMBOL_NUM>centerReelObjects{};
@@ -48,12 +55,17 @@ private:
 	bool isStopRight = false;
 
 	//タイマー
-	float reelStopTimer = 0.0f;	//リール停止から次のリール停止までの時間を管理
-	float waitTimer = 0.0f;		//リール始動から次のリール始動までの時間を管理
+	float reelStopTimer = Const::REEL_STOPINTERVAL_TIME;//リール停止から次のリール停止までの時間を管理
+	float waitTimer = Const::WAIT_TIME;					//リール始動から次のリール始動までの時間を管理
 
 	//一番下のY座標
 	const float down = -Const::SYMBOLDISTANCE_HEIGHT * 18;
 
 	//中段に停止させるオブジェクトの添え字
 	int targetIndex = -1;
+
+	//停止ボタンが押されたときの中段位置のオブジェクトの添え字
+	int stopIndex = -1;
+
+	Const::MinorPrize minorPrize = Const::MinorPrize::nothing;
 };

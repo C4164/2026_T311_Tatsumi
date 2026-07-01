@@ -9,7 +9,8 @@ namespace Resource
 	static const std::wstring melonPath = L"Data/Texture/melon.png";
 	static const std::wstring cherryPath = L"Data/Texture/cherry.png";
 	static const std::wstring sevenPath = L"Data/Texture/seven.png";
-	static const std::wstring barPath = L"Data/Texture/bar.png";
+	static const std::wstring bar_whitePath = L"Data/Texture/bar_white.png";
+	static const std::wstring bar_blackPath = L"Data/Texture/bar_black.png";
 
 	static const std::wstring whitePath = L"Data/Texture/white.png";
 
@@ -21,6 +22,7 @@ namespace Resource
 		Resource::melonPath,
 		Resource::cherryPath,
 		Resource::sevenPath,
-		Resource::barPath
+		Resource::bar_whitePath,
+		Resource::bar_blackPath,
 	};
 }
