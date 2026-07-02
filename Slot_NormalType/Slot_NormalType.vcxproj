@@ -171,6 +171,7 @@ d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CoinManager.cpp" />
     <ClCompile Include="CommandAllocator.cpp" />
     <ClCompile Include="CommandList.cpp" />
     <ClCompile Include="CommandQueue.cpp" />
@@ -202,6 +203,7 @@ d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CoinManager.h" />
     <ClInclude Include="CommandAllocator.h" />
     <ClInclude Include="CommandList.h" />
     <ClInclude Include="CommandQueue.h" />

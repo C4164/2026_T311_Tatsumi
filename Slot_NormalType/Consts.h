@@ -131,4 +131,15 @@ namespace Const
 	constexpr float REEL_STOPINTERVAL_TIME = 0.5f;	//リール停止間隔時間
 
 	constexpr int SLIDE_SYMBOL_MAX = 5;	//スライドする図柄の数
+
+	//コイン関連
+	constexpr int COIN_MAX = 9999;		//最大コイン枚数
+	constexpr int COIN_MIN = -9999;	//最小コイン枚数
+	constexpr int BET_NUM_NORMAL = 3;	//通常のベット枚数
+	constexpr int BET_NUM_BOUNUS = 2;	//ボーナス中のベット枚数
+	constexpr int MISS_PAYOUT = 1;		//はずれ目の払い出し枚数
+	constexpr int BELL_PAYOUT = 15;		//ベルの払い出し枚数
+	constexpr int REPLAY_PAYOUT = 0;	//リプレイの払い出し枚数
+	constexpr int MELON_PAYOUT = 5;		//スイカの払い出し枚数
+	constexpr int CHERY_PAYOUT = 2;		//チェリーの払い出し枚数
 }

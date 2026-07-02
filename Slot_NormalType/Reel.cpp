@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "GameScene.h"
 #include "Flag.h"
+#include "CoinManager.h"
 #include <cmath>
 
 void Reel::Init()
@@ -62,6 +63,8 @@ void Reel::Update(float deltaTime)
 	UpdatePosition(deltaTime, leftReelObjects, isSpinLeft, isStopLeft);
 	UpdatePosition(deltaTime, centerReelObjects, isSpinCenter, isStopCenter);
 	UpdatePosition(deltaTime, rightReelObjects, isSpinRight, isStopRight);
+
+	PayoutAction();
 }
 
 void Reel::ActionCheck()
@@ -69,74 +72,111 @@ void Reel::ActionCheck()
 	//スペースキーが押されていなければ何もしない
 	if (!Input::IsKeyDown(VK_SPACE)) { return; }
 
-	//第一停止
-	if (isSpinLeft && reelStopTimer > Const::REEL_STOPINTERVAL_TIME)
+	if (reelStopTimer > Const::REEL_STOPINTERVAL_TIME) 
 	{
-		isStopLeft = true;
-		SetStopIndex(leftReelObjects);
-		SetTargetIndex_Left();
+		//第一停止
+		if (isSpinLeft)
+		{
+			isStopLeft = true;
+			SetStopIndex(leftReelObjects);
+			SetTargetIndex_Left();
+			reelStopTimer = 0.0f;
+		}
+		//第二停止
+		else if (isSpinCenter)
+		{
+			isStopCenter = true;
+			SetStopIndex(centerReelObjects);
+			SetTargetIndex_Center();
+			reelStopTimer = 0.0f;
+		}
+		//第三停止
+		else if (isSpinRight)
+		{
+			isStopRight = true;
+			SetStopIndex(rightReelObjects);
+			SetTargetIndex_Right();
+			reelStopTimer = 0.0f;
+		}
+		//リール始動
+		else if (waitTimer > Const::WAIT_TIME)
+		{
+			LeverOnAction();
+		}
 	}
-	//第二停止
-	else if (isSpinCenter && reelStopTimer > Const::REEL_STOPINTERVAL_TIME)
+}
+
+void Reel::LeverOnAction()
+{
+	minorPrize = Flag::Instance().FlagUp(4);
+
+	//デバッグ用小役指定
+	if (Input::IsKeyHold('1'))
 	{
-		isStopCenter = true;
-		SetStopIndex(centerReelObjects);
-		SetTargetIndex_Center();
+		minorPrize = Const::bell;
 	}
-	//第三停止
-	else if (isSpinRight && reelStopTimer > Const::REEL_STOPINTERVAL_TIME)
+	else if (Input::IsKeyHold('2'))
 	{
-		isStopRight = true;
-		SetStopIndex(rightReelObjects);
-		SetTargetIndex_Right();
+		minorPrize = Const::replay;
 	}
-	//リール始動
-	else if (waitTimer > Const::WAIT_TIME)
+	else if (Input::IsKeyHold('3'))
 	{
-		minorPrize = Flag::Instance().FlagUp(4);
+		minorPrize = Const::chance;
+	}
+	else if (Input::IsKeyHold('4'))
+	{
+		minorPrize = Const::melon_weakness;
+	}
+	else if (Input::IsKeyHold('5'))
+	{
+		minorPrize = Const::melon_strength_1;
+	}
+	else if (Input::IsKeyHold('6'))
+	{
+		minorPrize = Const::cherry_weakness;
+	}
+	else if (Input::IsKeyHold('7'))
+	{
+		minorPrize = Const::cherry_strength_1;
+	}
 
-		//デバッグ用小役指定
-		if (Input::IsKeyHold('1'))
-		{
-			minorPrize = Const::bell;
-		}
-		else if (Input::IsKeyHold('2'))
-		{
-			minorPrize = Const::replay;
-		}
-		else if (Input::IsKeyHold('3'))
-		{
-			minorPrize = Const::chance;
-		}
-		else if (Input::IsKeyHold('4'))
-		{
-			minorPrize = Const::melon_weakness;
-		}
-		else if (Input::IsKeyHold('5'))
-		{
-			minorPrize = Const::melon_strength_1;
-		}
-		else if (Input::IsKeyHold('6'))
-		{
-			minorPrize = Const::cherry_weakness;
-		}
-		else if (Input::IsKeyHold('7'))
-		{
-			minorPrize = Const::cherry_strength_1;
-		}
+	OutputDebugStringA(("minorPrize: " + std::to_string(minorPrize) + "\n").c_str());
 
-		OutputDebugStringA(("minorPrize: " + std::to_string(minorPrize) + "\n").c_str());
+	isSpinLeft = true;
+	isSpinCenter = true;
+	isSpinRight = true;
 
-		isSpinLeft = true;
-		isSpinCenter = true;
-		isSpinRight = true;
+	isStopLeft = false;
+	isStopCenter = false;
+	isStopRight = false;
 
-		isStopLeft = false;
-		isStopCenter = false;
-		isStopRight = false;
+	stopIndex_left = -1;
+	stopIndex_center = -1;
+	stopIndex_right = -1;
 
-		reelStopTimer = 0.0f;
-		waitTimer = 0.0f;
+	isPayout = false;
+
+	reelStopTimer = 0.0f;
+	waitTimer = 0.0f;
+
+	CoinManager::Instance().RemoveCoin(Const::BET_NUM_NORMAL);
+	OutputDebugStringA(("CurrentCoin: " + std::to_string(CoinManager::Instance().GetCoinCount()) + "\n").c_str());
+}
+
+void Reel::PayoutAction() 
+{
+	if (isSpinLeft || isSpinCenter || isSpinRight) { return; }
+
+	//第三停止を離したら払い出し処理
+	if (Input::IsKeyUp(VK_SPACE) && !isPayout)
+	{
+		CoinManager::Instance().CoinPayout(
+			stopIndex_left,
+			stopIndex_center,
+			stopIndex_right
+		);
+		OutputDebugStringA(("CurrentCoin: " + std::to_string(CoinManager::Instance().GetCoinCount()) + "\n").c_str());
+		isPayout = true;
 	}
 }
 
@@ -191,12 +231,12 @@ void Reel::ReelStop(
 
 void Reel::SetTargetIndex_Left()
 {
-	if (stopIndex == -1) { return; }
+	if (pushStopIndex == -1) { return; }
 
 	//弱スイカは0番目の図柄(スイカ)を中段に止める
 	if (minorPrize == Const::melon_weakness)
 	{
-		targetIndex = TargetIndexCalc(stopIndex, 0);
+		targetIndex = TargetIndexCalc(pushStopIndex, 0);
 	}
 	//弱チェリー、強スイカは1番目の図柄(バー、ブランク)を中段に止める
 	else if (
@@ -205,7 +245,7 @@ void Reel::SetTargetIndex_Left()
 		minorPrize == Const::cherry_weakness
 		)
 	{
-		targetIndex = TargetIndexCalc(stopIndex, 1);
+		targetIndex = TargetIndexCalc(pushStopIndex, 1);
 	}
 	//強チェリーは2番目の図柄(チェリー)を中段に止める
 	else if (
@@ -213,7 +253,7 @@ void Reel::SetTargetIndex_Left()
 		minorPrize == Const::cherry_strength_2
 		)
 	{
-		targetIndex = TargetIndexCalc(stopIndex, 2);
+		targetIndex = TargetIndexCalc(pushStopIndex, 2);
 	}
 	//はずれ、ベル、リプレイ、チャンス目は4番目の図柄(ベル)を中段に止める
 	else if (
@@ -223,15 +263,16 @@ void Reel::SetTargetIndex_Left()
 		minorPrize == Const::chance
 		)
 	{
-		targetIndex = TargetIndexCalc(stopIndex, 4);
+		targetIndex = TargetIndexCalc(pushStopIndex, 4);
 	}
 
-	stopIndex = -1;
+	stopIndex_left = targetIndex;
+	pushStopIndex = -1;
 }
 
 void Reel::SetTargetIndex_Center()
 {
-	if (stopIndex == -1) { return; }
+	if (pushStopIndex == -1) { return; }
 
 	//ベル、チャンス目、強スイカは0番目の図柄(ベル)を中段に止める
 	if (
@@ -241,12 +282,12 @@ void Reel::SetTargetIndex_Center()
 		minorPrize == Const::melon_strength_2
 		)
 	{
-		targetIndex = TargetIndexCalc(stopIndex, 0);
+		targetIndex = TargetIndexCalc(pushStopIndex, 0);
 	}
 	//はずれは1番目の図柄(リプレイ)を中段に止める
 	else if (minorPrize == Const::nothing)
 	{
-		targetIndex = TargetIndexCalc(stopIndex, 1);
+		targetIndex = TargetIndexCalc(pushStopIndex, 1);
 	}
 	//リプレイ、強チェリー、弱チェリーは2番目の図柄(バー、ブランク、ボーナス)を中段に止める
 	else if (
@@ -256,22 +297,23 @@ void Reel::SetTargetIndex_Center()
 		minorPrize == Const::cherry_weakness
 		)
 	{
-		targetIndex = TargetIndexCalc(stopIndex, 2);
+		targetIndex = TargetIndexCalc(pushStopIndex, 2);
 	}
 	//弱スイカは4番目の図柄(スイカ、チェリー)を中段に止める
 	else if (
 		minorPrize == Const::melon_weakness
 		)
 	{
-		targetIndex = TargetIndexCalc(stopIndex, 4);
+		targetIndex = TargetIndexCalc(pushStopIndex, 4);
 	}
 
-	stopIndex = -1;
+	stopIndex_center = targetIndex;
+	pushStopIndex = -1;
 }
 
 void Reel::SetTargetIndex_Right()
 {
-	if (stopIndex == -1) { return; }
+	if (pushStopIndex == -1) { return; }
 
 	//リプレイ、弱スイカは1番目の図柄(スイカ、ブランク)を中段に止める
 	else if (
@@ -279,7 +321,7 @@ void Reel::SetTargetIndex_Right()
 		minorPrize == Const::melon_weakness
 		)
 	{
-		targetIndex = TargetIndexCalc(stopIndex, 1);
+		targetIndex = TargetIndexCalc(pushStopIndex, 1);
 	}
 	//ベル、強スイカは2番目の図柄(ベル)を中段に止める
 	else if (
@@ -287,7 +329,7 @@ void Reel::SetTargetIndex_Right()
 		minorPrize == Const::melon_strength_1 ||
 		minorPrize == Const::melon_strength_2)
 	{
-		targetIndex = TargetIndexCalc(stopIndex, 2);
+		targetIndex = TargetIndexCalc(pushStopIndex, 2);
 	}
 	//はずれ、チャンス目は3番目の図柄(バー、ボーナス、ブランク)を中段に止める
 	else if (
@@ -295,7 +337,7 @@ void Reel::SetTargetIndex_Right()
 		minorPrize == Const::chance
 		)
 	{
-		targetIndex = TargetIndexCalc(stopIndex, 3);
+		targetIndex = TargetIndexCalc(pushStopIndex, 3);
 	}
 	//強チェリー、弱チェリーは4番目の図柄(チェリー)を中段に止める
 	else if (
@@ -304,10 +346,11 @@ void Reel::SetTargetIndex_Right()
 		minorPrize == Const::cherry_weakness
 		)
 	{
-		targetIndex = TargetIndexCalc(stopIndex, 4);
+		targetIndex = TargetIndexCalc(pushStopIndex, 4);
 	}
 
-	stopIndex = -1;
+	stopIndex_right = targetIndex;
+	pushStopIndex = -1;
 }
 
 int Reel::TargetIndexCalc(int stopIdx, int target)
@@ -322,14 +365,14 @@ int Reel::TargetIndexCalc(int stopIdx, int target)
 
 void Reel::SetStopIndex(std::array<GameObject*, Const::REELSYMBOL_NUM> reelObjects)
 {
-	if (stopIndex != -1) { return; }
+	if (pushStopIndex != -1) { return; }
 
 	for (int i = 0; i < Const::REELSYMBOL_NUM; i++)
 	{
 		if (reelObjects[i]->transform.position.y < 1.5f &&
 			reelObjects[i]->transform.position.y > 0.0f)
 		{
-			stopIndex = i;
+			pushStopIndex = i;
 			break;
 		}
 	}

@@ -16,6 +16,10 @@ private:
 	//入力を検知しリールの停止やリールの始動をする関数
 	void ActionCheck();
 
+	void LeverOnAction();
+
+	void PayoutAction();
+
 	//リールを回転させる関数
 	void UpdatePosition(
 		float deltaTime,
@@ -65,7 +69,13 @@ private:
 	int targetIndex = -1;
 
 	//停止ボタンが押されたときの中段位置のオブジェクトの添え字
-	int stopIndex = -1;
+	int pushStopIndex = -1;
 
 	Const::MinorPrize minorPrize = Const::MinorPrize::nothing;
+
+	int stopIndex_left = -1;
+	int stopIndex_center = -1;
+	int stopIndex_right = -1;
+
+	bool isPayout = false;
 };
