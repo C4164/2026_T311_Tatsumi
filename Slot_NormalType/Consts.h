@@ -131,7 +131,7 @@ namespace Const
 
 	constexpr float REEL_SPEED = 33.0f;				//リールの回転速度
 	constexpr float WAIT_TIME = 1.0f;				//ウェイト時間(今のところなし)
-	constexpr float REEL_STOPINTERVAL_TIME = 0.5f;	//リール停止間隔時間
+	constexpr float REEL_STOPINTERVAL_TIME = 0.2f;	//リール停止間隔時間
 
 	constexpr int SLIDE_SYMBOL_MAX = 5;	//スライドする図柄の数
 
@@ -149,25 +149,24 @@ namespace Const
 	//モード関連
 	constexpr enum Mode
 	{
-		None,
+		None = -1,
 		LowMode,
 		NormalMode,
 		HighMode,
-		Bounus,
-	};
-
-	constexpr std::array<Mode, 6> TargetMode
-	{
-		Mode::Bounus,
-		Mode::HighMode,
-		Mode::NormalMode,
-		Mode::Bounus,
-		Mode::HighMode,
-		Mode::Bounus
+		Bonus,
 	};
 
 	//リプレイによるモードの転落率(8分の1)
 	constexpr int REPLAY_MODE_DOWN = 8192;
+
+	//はずれでのモード別のボーナス当選率
+	constexpr int BONUS_HIT_LOW_MODE = 164;
+	constexpr int BONUS_HIT_NORMAL_MODE = 328;
+	constexpr int BONUS_HIT_HIGH_MODE = 655;
+
+	//モードリセット時の配分
+	//低確20%、通常50%、高確30%
+	constexpr std::array<int, 3>MODE_RESET_RATE{ 13106, 32768, 19661 };
 
 	struct MODE_TRANS_RATE
 	{
@@ -181,51 +180,51 @@ namespace Const
 
 	constexpr MODE_TRANS_RATE CHERY_WEAKNESS_TRANS_RATE
 	{
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 }
+		{ 98,105,229,452,708 },
+		{ 79,85,111,111,118 },
+		{ 3729,3762,5000,5099,5190 },
+		{ 184,256,976,1901,2562 },
+		{ 2458,2497,3231,3211,3257 },
+		{ 1147,1212,2536,3559,4679 }
 	};
 
 	constexpr MODE_TRANS_RATE CHERY_STRENGTH_TRANS_RATE
 	{
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 }
+		{ 16383,16383,16383,16383,16383 },
+		{ 4096,4096,4096,4096,4096 },
+		{ 45056,45056,45056,45056,45056 },
+		{ 16384,16384,16384,16384,16384 },
+		{ 8192,8192,8192,8192,8192 },
+		{ 65535,65535,65535,65535,65535 }
 	};
 
 	constexpr MODE_TRANS_RATE MELON_WEAKNESS_TRANS_RATE
 	{
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 }
+		{ 216,249,662,1317,1756 },
+		{ 1310,1317,1750,1743,1776 },
+		{ 19720,19956,26254,26352,26667 },
+		{ 826,911,2386,3316,3952 },
+		{ 20441,20565,26300,26083,26273 },
+		{ 6986,7065,10499,11705,12557 }
 	};
 
 	constexpr MODE_TRANS_RATE MELON_STRENGTH_TRANS_RATE
 	{
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 }
+		{ 4180,4246,4678,5556,5943 },
+		{ 16384,16384,16384,16384,16384 },
+		{ 44971,44905,44473,43595,43208 },
+		{ 6657,6657,6657,6657,6657 },
+		{ 58878,58878,58878,58878,58878 },
+		{ 32768,32768,32768,32768,32768 }
 	};
 
 	constexpr MODE_TRANS_RATE CHANCE_TRANS_RATE
 	{
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 },
-		{ 0,0,0,0,0 }
+		{ 400,570,1927,3591,4417 },
+		{ 125,125,125,125,125 },
+		{ 15853,15840,15191,14379,13966 },
+		{ 963,983,1311,1619,1874 },
+		{ 15421,15781,15643,15473,15349 },
+		{ 16384,16384,16384,16384,16384 }
 	};
 }
