@@ -6,20 +6,11 @@
 #include "GameScene.h"
 #include "Flag.h"
 #include "CoinManager.h"
+#include "ModeSelection.h"
 #include <cmath>
 
-void Reel::Init()
+void Reel::Init(int _setting)
 {
-	//それぞれのテクスチャーをロード
-	ResourceManager::LoadTexture(Resource::blankPath);
-	ResourceManager::LoadTexture(Resource::bellPath);
-	ResourceManager::LoadTexture(Resource::replayPath);
-	ResourceManager::LoadTexture(Resource::melonPath);
-	ResourceManager::LoadTexture(Resource::cherryPath);
-	ResourceManager::LoadTexture(Resource::sevenPath);
-	ResourceManager::LoadTexture(Resource::bar_whitePath);
-	ResourceManager::LoadTexture(Resource::bar_blackPath);
-
 	//図柄を作成し、リール配列通りに配置
 	XMFLOAT3 createPos = { -Const::SYMBOLDISTANCE_WIDTH,Const::SYMBOLDISTANCE_HEIGHT,0 };
 	const XMFLOAT3 createScale = { 1.5f,1.5f,1.5f };
@@ -47,6 +38,8 @@ void Reel::Init()
 		createPos.x -= Const::SYMBOLDISTANCE_WIDTH * 2.0f;
 		createPos.y -= Const::SYMBOLDISTANCE_HEIGHT;
 	}
+
+	setting = _setting;
 }
 
 void Reel::Update(float deltaTime)
@@ -64,7 +57,7 @@ void Reel::Update(float deltaTime)
 	UpdatePosition(deltaTime, centerReelObjects, isSpinCenter, isStopCenter);
 	UpdatePosition(deltaTime, rightReelObjects, isSpinRight, isStopRight);
 
-	PayoutAction();
+	ThirdReelStopButtonReleasedAction();
 }
 
 void Reel::ActionCheck()
@@ -72,7 +65,7 @@ void Reel::ActionCheck()
 	//スペースキーが押されていなければ何もしない
 	if (!Input::IsKeyDown(VK_SPACE)) { return; }
 
-	if (reelStopTimer > Const::REEL_STOPINTERVAL_TIME) 
+	if (reelStopTimer > Const::REEL_STOPINTERVAL_TIME)
 	{
 		//第一停止
 		if (isSpinLeft)
@@ -108,7 +101,14 @@ void Reel::ActionCheck()
 
 void Reel::LeverOnAction()
 {
-	minorPrize = Flag::Instance().FlagUp(4);
+	if (!ModeSelection::Instance().IsBonusTime()) 
+	{
+		minorPrize = Flag::Instance().FlagUp(setting);
+	}
+	else 
+	{
+		minorPrize = Const::bell;
+	}
 
 	//デバッグ用小役指定
 	if (Input::IsKeyHold('1'))
@@ -159,15 +159,17 @@ void Reel::LeverOnAction()
 	reelStopTimer = 0.0f;
 	waitTimer = 0.0f;
 
-	CoinManager::Instance().RemoveCoin(Const::BET_NUM_NORMAL);
+	if (!isReplay) { CoinManager::Instance().RemoveCoin(Const::BET_NUM_NORMAL); }
+	isReplay = minorPrize == replay;
 	OutputDebugStringA(("CurrentCoin: " + std::to_string(CoinManager::Instance().GetCoinCount()) + "\n").c_str());
 }
 
-void Reel::PayoutAction() 
+void Reel::ThirdReelStopButtonReleasedAction()
 {
-	if (isSpinLeft || isSpinCenter || isSpinRight) { return; }
+	if (isSpinLeft || isSpinCenter) { return; }
+	if (isSpinRight && !isStopRight) { return; }
 
-	//第三停止を離したら払い出し処理
+	//第三停止を離した時に払い出しとモード移行を行う
 	if (Input::IsKeyUp(VK_SPACE) && !isPayout)
 	{
 		CoinManager::Instance().CoinPayout(
@@ -177,6 +179,22 @@ void Reel::PayoutAction()
 		);
 		OutputDebugStringA(("CurrentCoin: " + std::to_string(CoinManager::Instance().GetCoinCount()) + "\n").c_str());
 		isPayout = true;
+
+		if (ModeSelection::Instance().IsBonusTime()) 
+		{
+			ModeSelection::Instance().AddPayOutNum();
+		}
+
+		if (ModeSelection::Instance().IsReadyBonus()) 
+		{
+			ModeSelection::Instance().SetReadyBonus(false);
+			ModeSelection::Instance().SetBonusTime(true);
+		}
+
+		ModeSelection::Instance().SetMode(setting, minorPrize);
+		OutputDebugStringA(("CurrentMode: " + std::to_string(ModeSelection::Instance().GetMode()) + "\n").c_str());
+
+		UI::Instance().SetChanceLampOnOff(ModeSelection::Instance().GetMode() == Mode::Bonus);
 	}
 }
 
@@ -233,6 +251,12 @@ void Reel::SetTargetIndex_Left()
 {
 	if (pushStopIndex == -1) { return; }
 
+	if (ModeSelection::Instance().IsReadyBonus()) 
+	{
+		targetIndex = 3;
+		return;
+	}
+
 	//弱スイカは0番目の図柄(スイカ)を中段に止める
 	if (minorPrize == Const::melon_weakness)
 	{
@@ -274,6 +298,12 @@ void Reel::SetTargetIndex_Center()
 {
 	if (pushStopIndex == -1) { return; }
 
+	if (ModeSelection::Instance().IsReadyBonus())
+	{
+		targetIndex = 17;
+		return;
+	}
+
 	//ベル、チャンス目、強スイカは0番目の図柄(ベル)を中段に止める
 	if (
 		minorPrize == Const::bell ||
@@ -314,6 +344,12 @@ void Reel::SetTargetIndex_Center()
 void Reel::SetTargetIndex_Right()
 {
 	if (pushStopIndex == -1) { return; }
+
+	if (ModeSelection::Instance().IsReadyBonus())
+	{
+		targetIndex = 8;
+		return;
+	}
 
 	//リプレイ、弱スイカは1番目の図柄(スイカ、ブランク)を中段に止める
 	else if (

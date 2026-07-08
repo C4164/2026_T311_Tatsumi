@@ -111,6 +111,12 @@
     <ClCompile Include="UI.cpp">
       <Filter>30_GamePlay</Filter>
     </ClCompile>
+    <ClCompile Include="CoinManager.cpp">
+      <Filter>30_GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="ModeSelection.cpp">
+      <Filter>30_GamePlay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -219,6 +225,12 @@
       <Filter>20_Resource</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
+      <Filter>30_GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="CoinManager.h">
+      <Filter>30_GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="ModeSelection.h">
       <Filter>30_GamePlay</Filter>
     </ClInclude>
   </ItemGroup>

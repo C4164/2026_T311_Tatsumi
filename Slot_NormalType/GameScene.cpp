@@ -2,14 +2,18 @@
 #include "DeviceManager.h"
 #include "Render.h"
 #include "Flag.h"
+#include "ModeSelection.h"
 
 void GameScene::Init()
 {
 	DeviceManager::Instance().ResetCommandList();
 
 	Flag::Instance().Init();
-	ui.Init();
-	reel.Init();
+	ModeSelection::Instance().Init();
+
+	UI::Instance().Init();
+	reel.Init(setting);
+	ModeSelection::Instance().ResetMode();
 
 	DeviceManager::Instance().ExecuteCommandList();
 
@@ -46,4 +50,9 @@ void GameScene::DrawObjects(ID3D12GraphicsCommandList* commandList)
 	}
 
 	commandList->RSSetScissorRects(1, &fullScissor);
+}
+
+void GameScene::DrawUI(ID3D12GraphicsCommandList* commandList)
+{
+	UI::Instance().Draw(commandList);
 }

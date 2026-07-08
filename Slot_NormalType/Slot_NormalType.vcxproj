@@ -82,10 +82,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(CoreLibraryDependencies);dxgi.lib;
-d3d12.lib;
-d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)External/DirectXTex/Lib/$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(CoreLibraryDependencies);dxgi.lib;d3d12.lib;d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)External/DirectXTex/Lib/$(Configuration);$(ProjectDir)External/DirectXTK12/Bin/Desktop_2022/x64/Release;$(ProjectDir)External/DirectXTK12/Bin/Desktop_2022/x64/Debug</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -T vs_6_0 -E main -Fo "$(ProjectDir)Shaders\VS.cso" "$(ProjectDir)Shaders\VS.fx"
@@ -108,10 +106,8 @@ d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(CoreLibraryDependencies);dxgi.lib;
-d3d12.lib;
-d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)External/DirectXTex/Lib/$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(CoreLibraryDependencies);dxgi.lib;d3d12.lib;d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)External/DirectXTex/Lib/$(Configuration);$(ProjectDir)External/DirectXTK12/Bin/Desktop_2022/x64/Release;$(ProjectDir)External/DirectXTK12/Bin/Desktop_2022/x64/Debug</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -T vs_6_0 -E main -Fo "$(ProjectDir)Shaders\VS.cso" "$(ProjectDir)Shaders\VS.fx"
@@ -132,10 +128,8 @@ d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(CoreLibraryDependencies);dxgi.lib;
-d3d12.lib;
-d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)External/DirectXTex/Lib/$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(CoreLibraryDependencies);dxgi.lib;d3d12.lib;d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)External/DirectXTex/Lib/$(Configuration);$(ProjectDir)External/DirectXTK12/Bin/Desktop_2022/x64/Release;$(ProjectDir)External/DirectXTK12/Bin/Desktop_2022/x64/Debug</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -T vs_6_0 -E main -Fo "$(ProjectDir)Shaders\VS.cso" "$(ProjectDir)Shaders\VS.fx"
@@ -158,10 +152,8 @@ d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(CoreLibraryDependencies);dxgi.lib;
-d3d12.lib;
-d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)External/DirectXTex/Lib/$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(CoreLibraryDependencies);dxgi.lib;d3d12.lib;d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)External/DirectXTex/Lib/$(Configuration);$(ProjectDir)External/DirectXTK12/Bin/Desktop_2022/x64/Release;$(ProjectDir)External/DirectXTK12/Bin/Desktop_2022/x64/Debug</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -T vs_6_0 -E main -Fo "$(ProjectDir)Shaders\VS.cso" "$(ProjectDir)Shaders\VS.fx"
@@ -187,6 +179,7 @@ d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="ModeSelection.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
     <ClCompile Include="PipelineState.cpp" />
     <ClCompile Include="Reel.cpp" />
@@ -221,6 +214,7 @@ d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies
     <ClInclude Include="Input.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="ModeSelection.h" />
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="PipelineState.h" />

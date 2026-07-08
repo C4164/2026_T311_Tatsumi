@@ -9,7 +9,7 @@ public:
 	Reel() = default;
 	~Reel() = default;
 
-	void Init();
+	void Init(int _setting);
 	void Update(float deltaTime);
 
 private:
@@ -18,7 +18,7 @@ private:
 
 	void LeverOnAction();
 
-	void PayoutAction();
+	void ThirdReelStopButtonReleasedAction();
 
 	//ƒŠ[ƒ‹‚ğ‰ñ“]‚³‚¹‚éŠÖ”
 	void UpdatePosition(
@@ -47,6 +47,9 @@ private:
 	std::array<GameObject*, Const::REELSYMBOL_NUM>leftReelObjects{};
 	std::array<GameObject*, Const::REELSYMBOL_NUM>centerReelObjects{};
 	std::array<GameObject*, Const::REELSYMBOL_NUM>rightReelObjects{};
+
+	//İ’è
+	int setting = 0;
 
 	//ƒŠ[ƒ‹‚ª‰ñ“]‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
 	bool isSpinLeft = false;
@@ -78,4 +81,6 @@ private:
 	int stopIndex_right = -1;
 
 	bool isPayout = false;
+
+	bool isReplay = false;
 };
