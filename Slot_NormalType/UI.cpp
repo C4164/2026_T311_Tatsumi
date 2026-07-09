@@ -5,6 +5,7 @@
 #include "Resource.h"
 #include "Consts.h"
 #include "CoinManager.h"
+#include "ModeSelection.h"
 
 void UI::Init()
 {
@@ -69,6 +70,14 @@ void UI::Init()
 	XMFLOAT3 chancdLampSca(1.5f, 1.5f, 1.5f);
 	chanceLamp_off = ObjectFactory::CreateObject(Resource::chance_offPath, chancdLampPos, chancdLampSca);
 	chanceLamp_on = ObjectFactory::CreateObject(Resource::chance_onPath, chancdLampPos, chancdLampSca);
+
+	//ModeNumber
+	XMFLOAT3 modeNumPos(-3.5f, 2.5f, 0.0f);
+	XMFLOAT3 modeNumSca(0.5f, 0.7f, 0.0f);
+	for (int i = 0; i < 4; i++) 
+	{
+		modeNumbers[i]= ObjectFactory::CreateObject(Resource::NumberPaths[i], modeNumPos, modeNumSca);
+	}
 }
 
 void UI::Draw(ID3D12GraphicsCommandList* commandList)const
@@ -94,12 +103,13 @@ void UI::Draw(ID3D12GraphicsCommandList* commandList)const
 	pt->Draw(commandList);
 
 
-	//ƒŠ[ƒ‹‚ð‹æØ‚éü‚ð•`‰æ
+	//Grid
 	for (auto g : gridLines)
 	{
 		g->Draw(commandList);
 	}
 
+	//ChanceLamp
 	if (chanceLampOn)
 	{
 		chanceLamp_on->Draw(commandList);
@@ -108,4 +118,7 @@ void UI::Draw(ID3D12GraphicsCommandList* commandList)const
 	{
 		chanceLamp_off->Draw(commandList);
 	}
+
+	//ModeNumber
+	modeNumbers[ModeSelection::Instance().GetMode()]->Draw(commandList);
 }

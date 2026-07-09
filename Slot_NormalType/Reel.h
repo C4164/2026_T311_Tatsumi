@@ -18,7 +18,7 @@ private:
 
 	void LeverOnAction();
 
-	void ThirdReelStopButtonReleasedAction();
+	void ThirdReelStopButtonAction();
 
 	//ƒŠ[ƒ‹‚ğ‰ñ“]‚³‚¹‚éŠÖ”
 	void UpdatePosition(

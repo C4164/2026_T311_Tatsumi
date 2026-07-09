@@ -33,6 +33,8 @@ private:
 	GameObject* chanceLamp_off;
 	GameObject* chanceLamp_on;
 
+	std::array<GameObject*, 4>modeNumbers;
+
 	float lineWidth = 0.1f;
 
 	bool chanceLampOn = false;

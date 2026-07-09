@@ -56,14 +56,12 @@ void Reel::Update(float deltaTime)
 	UpdatePosition(deltaTime, leftReelObjects, isSpinLeft, isStopLeft);
 	UpdatePosition(deltaTime, centerReelObjects, isSpinCenter, isStopCenter);
 	UpdatePosition(deltaTime, rightReelObjects, isSpinRight, isStopRight);
-
-	ThirdReelStopButtonReleasedAction();
 }
 
 void Reel::ActionCheck()
 {
 	//スペースキーが押されていなければ何もしない
-	if (!Input::IsKeyDown(VK_SPACE)) { return; }
+	if (!Input::IsKeyHold(VK_SPACE)) { return; }
 
 	if (reelStopTimer > Const::REEL_STOPINTERVAL_TIME)
 	{
@@ -164,38 +162,32 @@ void Reel::LeverOnAction()
 	OutputDebugStringA(("CurrentCoin: " + std::to_string(CoinManager::Instance().GetCoinCount()) + "\n").c_str());
 }
 
-void Reel::ThirdReelStopButtonReleasedAction()
+void Reel::ThirdReelStopButtonAction()
 {
-	if (isSpinLeft || isSpinCenter) { return; }
-	if (isSpinRight && !isStopRight) { return; }
+	//第三停止後に払い出しとモード移行を行う
+	CoinManager::Instance().CoinPayout(
+		stopIndex_left,
+		stopIndex_center,
+		stopIndex_right
+	);
+	OutputDebugStringA(("CurrentCoin: " + std::to_string(CoinManager::Instance().GetCoinCount()) + "\n").c_str());
+	isPayout = true;
 
-	//第三停止を離した時に払い出しとモード移行を行う
-	if (Input::IsKeyUp(VK_SPACE) && !isPayout)
+	if (ModeSelection::Instance().IsBonusTime())
 	{
-		CoinManager::Instance().CoinPayout(
-			stopIndex_left,
-			stopIndex_center,
-			stopIndex_right
-		);
-		OutputDebugStringA(("CurrentCoin: " + std::to_string(CoinManager::Instance().GetCoinCount()) + "\n").c_str());
-		isPayout = true;
-
-		if (ModeSelection::Instance().IsBonusTime()) 
-		{
-			ModeSelection::Instance().AddPayOutNum();
-		}
-
-		if (ModeSelection::Instance().IsReadyBonus()) 
-		{
-			ModeSelection::Instance().SetReadyBonus(false);
-			ModeSelection::Instance().SetBonusTime(true);
-		}
-
-		ModeSelection::Instance().SetMode(setting, minorPrize);
-		OutputDebugStringA(("CurrentMode: " + std::to_string(ModeSelection::Instance().GetMode()) + "\n").c_str());
-
-		UI::Instance().SetChanceLampOnOff(ModeSelection::Instance().GetMode() == Mode::Bonus);
+		ModeSelection::Instance().AddPayOutNum();
 	}
+
+	if (ModeSelection::Instance().IsReadyBonus())
+	{
+		ModeSelection::Instance().SetReadyBonus(false);
+		ModeSelection::Instance().SetBonusTime(true);
+	}
+
+	ModeSelection::Instance().SetMode(setting, minorPrize);
+	OutputDebugStringA(("CurrentMode: " + std::to_string(ModeSelection::Instance().GetMode()) + "\n").c_str());
+
+	UI::Instance().SetChanceLampOnOff(ModeSelection::Instance().GetMode() == Mode::Bonus);
 }
 
 void Reel::UpdatePosition(
@@ -244,6 +236,10 @@ void Reel::ReelStop(
 		//リールを停止
 		isSpin = false;
 		targetIndex = -1;
+		if (reelObjects == rightReelObjects) 
+		{
+			ThirdReelStopButtonAction();
+		}
 	}
 }
 
