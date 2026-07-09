@@ -20,6 +20,8 @@ private:
 
 	void ThirdReelStopButtonAction();
 
+	void ResetData();
+
 	//ƒŠ[ƒ‹‚ğ‰ñ“]‚³‚¹‚éŠÖ”
 	void UpdatePosition(
 		float deltaTime,

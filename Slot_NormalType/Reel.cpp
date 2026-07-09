@@ -44,6 +44,8 @@ void Reel::Init(int _setting)
 
 void Reel::Update(float deltaTime)
 {
+	ResetData();
+
 	reelStopTimer += deltaTime;
 	waitTimer += deltaTime;
 
@@ -188,6 +190,18 @@ void Reel::ThirdReelStopButtonAction()
 	OutputDebugStringA(("CurrentMode: " + std::to_string(ModeSelection::Instance().GetMode()) + "\n").c_str());
 
 	UI::Instance().SetChanceLampOnOff(ModeSelection::Instance().GetMode() == Mode::Bonus);
+}
+
+void Reel::ResetData() 
+{
+	if (isSpinLeft || isSpinCenter || isSpinRight) { return; }
+	if (!Input::IsKeyHold('R')) { return; }
+	if (!Input::IsKeyHold('S')) { return; }
+	if (!Input::IsKeyHold('E')) { return; }
+	if (!Input::IsKeyUp('T')) { return; }
+
+	CoinManager::Instance().Reset();
+	ModeSelection::Instance().ResetMode();
 }
 
 void Reel::UpdatePosition(
