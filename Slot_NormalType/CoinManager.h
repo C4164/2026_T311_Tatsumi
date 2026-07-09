@@ -10,6 +10,11 @@ public:
 		return instance;
 	}
 
+	void Reset() 
+	{
+		coinCount = 0;
+	}
+
 	void AddCoin(int amount)
 	{
 		coinCount += amount;
